@@ -1201,15 +1201,24 @@
 
           // Save to local storage (persistent)
           localStorage.setItem("step1Data", JSON.stringify(formData));
+          
+          // Debug: log to console
+          console.log("Step1 data saved to localStorage:", formData);
 
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Navigate to step 2 after short delay (user sees loading feedback)
+          // Navigate to step 2 (use dynamic URL to support iframe proxy)
           setTimeout(() => {
-            window.location.replace(
-              "https://script.google.com/macros/s/AKfycbyjIrwkM2lA8ov7qac0g2C-pLw8gcp-DO_xy-wTZ0Uigd7r-ijvNIhQv_SgLP5eIOy7/exec?page=step2"
-            );
+            // Build step2 URL from current location (works with iframe proxy)
+            const currentUrl = window.location.href;
+            const baseUrl = currentUrl.split('?')[0]; // Remove query params
+            const step2Url = baseUrl + '?page=step2';
+            
+            console.log("Current URL:", currentUrl);
+            console.log("Navigating to:", step2Url);
+            
+            window.location.replace(step2Url);
           }, 500);
         } else {
           const firstError = document.querySelector(

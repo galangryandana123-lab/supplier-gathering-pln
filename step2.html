@@ -793,7 +793,8 @@
         </p>
 
         <a
-          href="https://akses.digital/supplier-gathering"
+          href="#"
+          onclick="(function(){ const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, ''); window.location.href = baseUrl; })()"
           class="btn btn-primary"
           style="
             width: 100%;
@@ -1844,7 +1845,8 @@
       <!-- Navigation Buttons -->
       <div class="button-group">
         <a
-          href="https://akses.digital/supplier-gathering"
+          href="#"
+          onclick="(function(){ const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, ''); window.location.href = baseUrl; })()"
           class="btn btn-secondary"
           style="
             text-decoration: none;
@@ -1878,8 +1880,8 @@
         const step1Json = localStorage.getItem("step1Data");
         if (!step1Json) {
           alert("Data step 1 tidak ditemukan. Silakan mulai dari awal.");
-          window.location.href =
-            window.location.origin + window.location.pathname;
+          const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, '');
+          window.location.href = baseUrl;
           return;
         }
 
@@ -1888,8 +1890,8 @@
 
         if (selectedUnits.length === 0) {
           alert("Tidak ada unit yang dipilih. Silakan mulai dari awal.");
-          window.location.href =
-            window.location.origin + window.location.pathname;
+          const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, '');
+          window.location.href = baseUrl;
           return;
         }
 
@@ -2076,9 +2078,11 @@
         localStorage.removeItem("step1Data");
         localStorage.removeItem("kuesionerProgress");
 
-        // Always navigate back to step 1 (most reliable)
-        const targetUrl = "https://akses.digital/supplier-gathering";
-        window.location.replace(targetUrl);
+        // Navigate back to step 1 (use dynamic URL for iframe proxy support)
+        const currentUrl = window.location.href;
+        const baseUrl = currentUrl.split('?')[0];
+        const step1Url = baseUrl; // No query params = step1 (default)
+        window.location.replace(step1Url);
       }
 
       function handleNext() {
@@ -2172,9 +2176,11 @@
           console.log("Progress save skipped:", e);
         }
 
-        // Always navigate back to step 1 (most reliable)
-        const targetUrl = "https://akses.digital/supplier-gathering";
-        window.location.replace(targetUrl);
+        // Navigate back to step 1 (use dynamic URL for iframe proxy support)
+        const currentUrl = window.location.href;
+        const baseUrl = currentUrl.split('?')[0];
+        const step1Url = baseUrl; // No query params = step1 (default)
+        window.location.replace(step1Url);
       }
 
       function handleFinalSubmit() {
