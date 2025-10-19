@@ -4,7 +4,7 @@
  */
 
 // KONFIGURASI - Ganti dengan Spreadsheet ID Anda
-const SPREADSHEET_ID = "1pjAvTf8ug7lHTOKBUDR-R1E_8Eyom-s5pR7LaRGSshQ";
+const SPREADSHEET_ID = "175u9HZZOxpGCHS8GwurWbivY2i6gZn-DRgroehkx9MY";
 
 // Nama-nama sheet
 const SHEET_NAMES = {
@@ -161,7 +161,9 @@ function saveFormData(data) {
     try {
       if (data.step1.kehadiran === "Ya") {
         addEmailToQueue(data.step1);
-        Logger.log("✅ Email ditambahkan ke antrian untuk: " + data.step1.email);
+        Logger.log(
+          "✅ Email ditambahkan ke antrian untuk: " + data.step1.email
+        );
       }
     } catch (emailError) {
       Logger.log("⚠️ Error adding email to queue: " + emailError.toString());
@@ -609,7 +611,9 @@ function processEmailQueue() {
         const newRetryCount = retryCount + 1;
         queueSheet.getRange(i + 1, 7).setValue(newRetryCount);
         queueSheet.getRange(i + 1, 8).setValue(new Date());
-        queueSheet.getRange(i + 1, 9).setValue(error.toString().substring(0, 200));
+        queueSheet
+          .getRange(i + 1, 9)
+          .setValue(error.toString().substring(0, 200));
 
         if (newRetryCount >= 3) {
           queueSheet.getRange(i + 1, 6).setValue("failed");
@@ -620,7 +624,9 @@ function processEmailQueue() {
       }
     }
 
-    Logger.log("📧 processEmailQueue completed: " + emailsSent + " emails sent");
+    Logger.log(
+      "📧 processEmailQueue completed: " + emailsSent + " emails sent"
+    );
   } catch (error) {
     Logger.log("❌ Error processEmailQueue: " + error.toString());
   } finally {
@@ -657,17 +663,17 @@ function setupTriggers() {
     .create();
   Logger.log("✅ Created trigger: processEmailQueue (every 5 minutes)");
 
-  // Setup trigger untuk generateRekapKehadiran (tiap 3 menit)
+  // Setup trigger untuk generateRekapKehadiran (tiap 5 menit)
   ScriptApp.newTrigger("generateRekapKehadiran")
     .timeBased()
-    .everyMinutes(3)
+    .everyMinutes(5)
     .create();
-  Logger.log("✅ Created trigger: generateRekapKehadiran (every 3 minutes)");
+  Logger.log("✅ Created trigger: generateRekapKehadiran (every 5 minutes)");
 
   Logger.log(
     "\n🎉 All triggers setup complete!\n" +
       "- Email queue: processed every 5 minutes (max 90 emails/run)\n" +
-      "- Rekap kehadiran: updated every 3 minutes\n" +
+      "- Rekap kehadiran: updated every 5 minutes\n" +
       "- Estimated: 90 emails/5min = ~18 emails/min = 1080 emails/hour\n" +
       "- Daily capacity: ~1000-1500 emails (under MailApp limit 100/day buffer)"
   );

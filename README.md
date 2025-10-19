@@ -28,7 +28,7 @@ setupTriggers()
 
 Fungsi ini akan membuat 2 time-driven triggers:
 - `processEmailQueue`: Jalan tiap **5 menit** (kirim email dari antrian)
-- `generateRekapKehadiran`: Jalan tiap **3 menit** (update rekap otomatis)
+- `generateRekapKehadiran`: Jalan tiap **5 menit** (update rekap otomatis)
 
 **Verifikasi triggers sudah jalan:**
 - Apps Script Editor → Triggers (⏰ icon di sidebar kiri)
@@ -88,7 +88,7 @@ processEmailQueue()
 
 ## 📊 Rekap Kehadiran Auto-Update
 
-- Trigger `generateRekapKehadiran` jalan tiap **3 menit**
+- Trigger `generateRekapKehadiran` jalan tiap **5 menit**
 - Sheet **"Rekap Kehadiran"** otomatis ter-update
 - **Tidak perlu manual refresh** lagi
 
@@ -121,7 +121,7 @@ setupTriggers()   // Buat ulang
 - Pastikan trigger `processEmailQueue` aktif
 
 **Q: Rekap tidak update?**
-- Tunggu 3 menit (trigger jalan otomatis)
+- Tunggu 5 menit (trigger jalan otomatis)
 - Atau manual run: `generateRekapKehadiran()`
 - Cek trigger `generateRekapKehadiran` aktif
 
