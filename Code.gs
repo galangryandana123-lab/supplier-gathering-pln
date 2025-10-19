@@ -94,13 +94,15 @@ function doGet(e) {
  * Fungsi untuk menyimpan data dari client-side (dipanggil via google.script.run)
  */
 function saveFormData(data) {
+  const lock = LockService.getScriptLock();
+  lock.tryLock(30000);
   try {
     // Validasi data
     if (!data.step1 || !data.kuesioner) {
       throw new Error("Data tidak lengkap");
     }
 
-    // Validasi: Cek apakah perusahaan sudah submit
+    // Validasi: Cek apakah perusahaan sudah submit (di bawah lock untuk mencegah race condition)
     const companyName = data.step1.namaPerusahaan;
     if (isCompanySubmitted(companyName)) {
       throw new Error(
@@ -115,6 +117,13 @@ function saveFormData(data) {
 
     // 1. Simpan data kehadiran (Step 1)
     saveKehadiranData(ss, data.step1);
+
+    // Update cache perusahaan yang sudah submit agar getAvailableCompanies lebih cepat
+    try {
+      updateSubmittedCompaniesCache(companyName);
+    } catch (cacheErr) {
+      Logger.log("Cache update error: " + cacheErr);
+    }
 
     // 2. Simpan data kuesioner per unit
     if (data.kuesioner["UP PAITON"]) {
@@ -167,6 +176,10 @@ function saveFormData(data) {
   } catch (error) {
     Logger.log("Error saveFormData: " + error.toString());
     throw new Error("Terjadi kesalahan: " + error.toString());
+  } finally {
+    try {
+      lock.releaseLock();
+    } catch (e) {}
   }
 }
 
@@ -436,10 +449,20 @@ function createResponse(success, message, data = null) {
  */
 function getSubmittedCompanies() {
   try {
+    // Coba ambil dari cache dulu untuk mengurangi read ke spreadsheet
+    const cache = CacheService.getScriptCache();
+    const cached = cache.get("submitted_companies");
+    if (cached) {
+      const arr = JSON.parse(cached);
+      Logger.log("Submitted companies (cache): " + arr.length);
+      return arr;
+    }
+
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getSheetByName(SHEET_NAMES.KEHADIRAN);
 
     if (!sheet || sheet.getLastRow() <= 1) {
+      cache.put("submitted_companies", JSON.stringify([]), 300); // 5 menit
       return []; // Belum ada data
     }
 
@@ -450,11 +473,34 @@ function getSubmittedCompanies() {
       .map((row) => row[0])
       .filter((company) => company && company.toString().trim() !== "");
 
-    Logger.log("Submitted companies: " + submittedCompanies.join(", "));
+    cache.put("submitted_companies", JSON.stringify(submittedCompanies), 300);
+    Logger.log("Submitted companies (fresh): " + submittedCompanies.length);
     return submittedCompanies;
   } catch (error) {
     Logger.log("Error getSubmittedCompanies: " + error.toString());
     return [];
+  }
+}
+
+/**
+ * Update cache daftar perusahaan yang sudah submit
+ */
+function updateSubmittedCompaniesCache(companyName) {
+  try {
+    if (!companyName) return;
+    const cache = CacheService.getScriptCache();
+    const key = "submitted_companies";
+    const cached = cache.get(key);
+    let arr = [];
+    if (cached) {
+      arr = JSON.parse(cached);
+    }
+    if (!arr.includes(companyName)) {
+      arr.push(companyName);
+    }
+    cache.put(key, JSON.stringify(arr), 300); // 5 menit
+  } catch (e) {
+    Logger.log("Error updateSubmittedCompaniesCache: " + e.toString());
   }
 }
 
@@ -564,6 +610,7 @@ function generateRekapKehadiran() {
       }
       rekapSheet.clear();
     }
+
     const data = sheetKehadiran.getDataRange().getValues();
     const vendorMap = {};
     const vendorPerUnit = {
@@ -571,6 +618,7 @@ function generateRekapKehadiran() {
       BRANTAS: new Set(),
       PACITAN: new Set(),
     };
+
     for (let i = 1; i < data.length; i++) {
       const row = data[i];
       const namaVendor = row[1];
@@ -584,7 +632,8 @@ function generateRekapKehadiran() {
       const units = unitString
         .toString()
         .split(",")
-        .map((s) => s.trim().toUpperCase());
+        .map((s) => s.trim().toUpperCase())
+        .filter(Boolean);
       if (!vendorMap[namaVendor]) {
         vendorMap[namaVendor] = {
           jumlahSubmit: 0,
@@ -601,27 +650,32 @@ function generateRekapKehadiran() {
         if (unit.includes("PACITAN")) vendorPerUnit["PACITAN"].add(namaVendor);
       });
     }
+
     const vendorPaiton = vendorPerUnit["PAITON"].size;
     const vendorBrantas = vendorPerUnit["BRANTAS"].size;
     const vendorPacitan = vendorPerUnit["PACITAN"].size;
     const totalVendorHadir = Object.keys(vendorMap).length;
 
-    // Judul
-    rekapSheet.appendRow(["REKAP KEHADIRAN SUPPLIER GATHERING 2025"]);
-    rekapSheet.appendRow([""]); // Baris kosong
-    rekapSheet.appendRow(["Jumlah vendor yang hadir:", totalVendorHadir]);
-    rekapSheet.appendRow(["Vendor UP Paiton:", vendorPaiton]);
-    rekapSheet.appendRow(["Vendor UP Brantas:", vendorBrantas]);
-    rekapSheet.appendRow(["Vendor UP Pacitan:", vendorPacitan]);
-    // Header tabel: SEKARANG di baris 6
-    rekapSheet.appendRow(["No", "Nama Vendor Hadir", "Jumlah Submit"]);
+    // Susun output sekali, lalu tulis via setValues (lebih cepat daripada appendRow berulang)
+    const output = [];
+    output.push(["REKAP KEHADIRAN SUPPLIER GATHERING 2025", "", ""]);
+    output.push(["", "", ""]); // Baris kosong
+    output.push(["Jumlah vendor yang hadir:", totalVendorHadir, ""]);
+    output.push(["Vendor UP Paiton:", vendorPaiton, ""]);
+    output.push(["Vendor UP Brantas:", vendorBrantas, ""]);
+    output.push(["Vendor UP Pacitan:", vendorPacitan, ""]);
+    const headerRowIndex = output.length + 1; // 1-based index di sheet untuk header tabel
+    output.push(["No", "Nama Vendor Hadir", "Jumlah Submit"]);
 
     let no = 1;
     Object.entries(vendorMap)
       .sort((a, b) => a[0].localeCompare(b[0]))
       .forEach(([nama, data]) => {
-        rekapSheet.appendRow([no++, nama, data.jumlahSubmit]);
+        output.push([no++, nama, data.jumlahSubmit]);
       });
+
+    // Tulis ke sheet sekaligus
+    rekapSheet.getRange(1, 1, output.length, 3).setValues(output);
 
     // === FORMAT STYLING ===
     rekapSheet.getRange(1, 1, 1, 3).merge();
@@ -639,10 +693,9 @@ function generateRekapKehadiran() {
       .setFontWeight("bold")
       .setBackground("#eef2ff");
 
-    // Table header biru di baris 6
-    const headerRow = 6;
+    // Table header biru
     rekapSheet
-      .getRange(headerRow, 1, 1, 3)
+      .getRange(headerRowIndex, 1, 1, 3)
       .setFontWeight("bold")
       .setBackground("#667eea")
       .setFontColor("#ffffff")
@@ -654,8 +707,9 @@ function generateRekapKehadiran() {
     rekapSheet.setColumnWidth(3, 120);
 
     // Border tabel
-    if (no > 1) {
-      const tableRange = rekapSheet.getRange(headerRow, 1, no, 3);
+    const totalRows = output.length - headerRowIndex + 1; // termasuk baris header
+    if (totalRows > 1) {
+      const tableRange = rekapSheet.getRange(headerRowIndex, 1, totalRows, 3);
       tableRange.setBorder(
         true,
         true,
@@ -979,6 +1033,8 @@ Tim PT PLN Nusantara Power
  * Save data hasil scan QR ke sheet Buku Tamu
  */
 function saveAttendanceRecord(qrData) {
+  const lock = LockService.getScriptLock();
+  lock.tryLock(30000);
   try {
     // Parse QR data
     const data = typeof qrData === "string" ? JSON.parse(qrData) : qrData;
@@ -1038,6 +1094,13 @@ function saveAttendanceRecord(qrData) {
 
     sheet.appendRow(rowData);
 
+    // Tandai di cache agar pengecekan duplicate berikutnya cepat
+    try {
+      const cache = CacheService.getScriptCache();
+      const emailKey = "attendance_" + data.email.toLowerCase().trim();
+      cache.put(emailKey, "1", 3600); // 1 jam
+    } catch (e) {}
+
     Logger.log("✅ Data kehadiran berhasil disimpan: " + data.nama);
 
     return {
@@ -1051,6 +1114,10 @@ function saveAttendanceRecord(qrData) {
       success: false,
       message: "Error: " + error.toString(),
     };
+  } finally {
+    try {
+      lock.releaseLock();
+    } catch (e) {}
   }
 }
 
@@ -1059,16 +1126,28 @@ function saveAttendanceRecord(qrData) {
  */
 function checkDuplicateAttendance(sheet, email) {
   try {
+    const cache = CacheService.getScriptCache();
+    const key = "attendance_" + (email || "").toLowerCase().trim();
+    if (key && cache.get(key)) {
+      return true; // duplicate via cache
+    }
+
     if (sheet.getLastRow() <= 1) {
       return false; // Belum ada data
     }
 
-    // Get all emails from column 4 (Email column)
-    const dataRange = sheet.getRange(2, 4, sheet.getLastRow() - 1, 1);
-    const emails = dataRange.getValues().flat();
+    // Cari cepat menggunakan TextFinder (lebih efisien daripada load seluruh kolom)
+    const found = sheet
+      .createTextFinder(email)
+      .matchCase(false)
+      .matchEntireCell(true)
+      .findNext();
 
-    // Check if email exists
-    return emails.includes(email);
+    if (found) {
+      cache.put(key, "1", 3600); // 1 jam
+      return true;
+    }
+    return false;
   } catch (error) {
     Logger.log("Error checkDuplicateAttendance: " + error.toString());
     return false;
