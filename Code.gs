@@ -14,6 +14,7 @@ const SHEET_NAMES = {
   PACITAN: "Kuesioner UP Pacitan",
   REKAP: "Rekap Kehadiran",
   BUKU_TAMU: "Buku Tamu",
+  EMAIL_QUEUE: "Email Queue",
 };
 
 // DAFTAR PERUSAHAAN - Edit sesuai kebutuhan
@@ -153,25 +154,17 @@ function saveFormData(data) {
       );
     }
 
-    // Generate rekap DEFER ke background (async via trigger - tidak blocking response)
-    // Uncomment line di bawah jika ingin defer rekap (harus setup time-driven trigger)
-    // ScriptApp.newTrigger('generateRekapKehadiran').timeBased().after(5000).create();
-    // Sementara masih sync untuk backward compatibility:
-    try {
-      generateRekapKehadiran();
-    } catch (rekapError) {
-      Logger.log("Error generating rekap: " + rekapError.toString());
-      // Jangan throw error, karena data sudah tersimpan
-    }
+    // Generate rekap DEFER ke background (dijalankan oleh time-driven trigger)
+    // Tidak perlu dipanggil di sini untuk menghindari blocking response
 
-    // Kirim email dengan QR code untuk konfirmasi kehadiran
+    // Kirim email ASYNC dengan queue (tidak blocking response)
     try {
       if (data.step1.kehadiran === "Ya") {
-        sendQRCodeEmail(data.step1);
-        Logger.log("✅ Email QR code berhasil dikirim ke: " + data.step1.email);
+        addEmailToQueue(data.step1);
+        Logger.log("✅ Email ditambahkan ke antrian untuk: " + data.step1.email);
       }
     } catch (emailError) {
-      Logger.log("⚠️ Error sending email: " + emailError.toString());
+      Logger.log("⚠️ Error adding email to queue: " + emailError.toString());
       // Jangan throw error, karena data sudah tersimpan
     }
 
@@ -222,7 +215,7 @@ function saveKehadiranData(ss, step1Data) {
   const rowData = [
     timestamp,
     step1Data.namaPerusahaan || "",
-    step1Data.email,
+    (step1Data.email || "").toLowerCase().trim(), // Normalize email
     step1Data.nama,
     step1Data.jabatan,
     units,
@@ -321,7 +314,7 @@ function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
   const rowData = [
     timestamp,
     step1Data.namaPerusahaan || "",
-    step1Data.email,
+    (step1Data.email || "").toLowerCase().trim(), // Normalize email
     step1Data.nama,
     step1Data.jabatan,
     "'" + kuesionerData.nomorHp, // Prepend dengan apostrophe untuk preserve leading zero
@@ -495,6 +488,201 @@ function isCompanySubmitted(companyName) {
     Logger.log("Error isCompanySubmitted: " + error.toString());
     return false;
   }
+}
+
+// ============================================================
+// EMAIL QUEUE & ASYNC PROCESSING
+// ============================================================
+
+/**
+ * Tambahkan email ke antrian untuk dikirim secara async
+ */
+function addEmailToQueue(supplierData) {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const queueSheet = getOrCreateSheet(ss, SHEET_NAMES.EMAIL_QUEUE);
+
+    // Setup header jika belum ada
+    if (queueSheet.getLastRow() === 0) {
+      const headers = [
+        "Timestamp",
+        "Email",
+        "Nama",
+        "Nama Perusahaan",
+        "Units",
+        "Status",
+        "Retry Count",
+        "Last Attempt",
+        "Error Message",
+      ];
+      queueSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+
+      // Format header
+      const headerRange = queueSheet.getRange(1, 1, 1, headers.length);
+      headerRange.setFontWeight("bold");
+      headerRange.setBackground("#1e3c72");
+      headerRange.setFontColor("#ffffff");
+    }
+
+    // Tambahkan ke antrian
+    const timestamp = new Date();
+    const rowData = [
+      timestamp,
+      (supplierData.email || "").toLowerCase().trim(),
+      supplierData.nama,
+      supplierData.namaPerusahaan || "",
+      supplierData.units.join(", "),
+      "pending",
+      0,
+      "",
+      "",
+    ];
+
+    const nextRow = queueSheet.getLastRow() + 1;
+    queueSheet.getRange(nextRow, 1, 1, rowData.length).setValues([rowData]);
+
+    Logger.log("✅ Email added to queue: " + supplierData.email);
+  } catch (error) {
+    Logger.log("❌ Error addEmailToQueue: " + error.toString());
+    throw error;
+  }
+}
+
+/**
+ * Proses email queue secara batch (dipanggil oleh time-driven trigger)
+ * Rate limiting: 90 email per run untuk safety (buffer 10 dari limit 100/hari)
+ */
+function processEmailQueue() {
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) {
+    Logger.log("⚠️ processEmailQueue already running, skipping...");
+    return;
+  }
+
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const queueSheet = ss.getSheetByName(SHEET_NAMES.EMAIL_QUEUE);
+
+    if (!queueSheet || queueSheet.getLastRow() <= 1) {
+      Logger.log("No emails in queue");
+      return;
+    }
+
+    // Ambil semua data
+    const data = queueSheet.getDataRange().getValues();
+    let emailsSent = 0;
+    const MAX_EMAILS_PER_RUN = 90; // Safety buffer dari limit 100/hari
+
+    for (let i = 1; i < data.length && emailsSent < MAX_EMAILS_PER_RUN; i++) {
+      const row = data[i];
+      const status = row[5]; // Status column
+      const retryCount = row[6]; // Retry Count column
+
+      // Skip jika sudah sent atau failed (retry > 3)
+      if (status === "sent" || retryCount >= 3) {
+        continue;
+      }
+
+      try {
+        // Rekonstruksi supplierData
+        const supplierData = {
+          email: row[1],
+          nama: row[2],
+          namaPerusahaan: row[3],
+          units: row[4].split(", "),
+        };
+
+        // Kirim email
+        sendQRCodeEmail(supplierData);
+
+        // Update status jadi "sent"
+        queueSheet.getRange(i + 1, 6).setValue("sent");
+        queueSheet.getRange(i + 1, 8).setValue(new Date());
+        emailsSent++;
+
+        Logger.log("✅ Email sent to: " + supplierData.email);
+
+        // Sleep 1 detik antar email untuk menghindari rate limit spike
+        Utilities.sleep(1000);
+      } catch (error) {
+        // Update retry count dan error message
+        const newRetryCount = retryCount + 1;
+        queueSheet.getRange(i + 1, 7).setValue(newRetryCount);
+        queueSheet.getRange(i + 1, 8).setValue(new Date());
+        queueSheet.getRange(i + 1, 9).setValue(error.toString().substring(0, 200));
+
+        if (newRetryCount >= 3) {
+          queueSheet.getRange(i + 1, 6).setValue("failed");
+          Logger.log("❌ Email failed after 3 retries: " + row[1]);
+        } else {
+          Logger.log("⚠️ Email retry " + newRetryCount + "/3: " + row[1]);
+        }
+      }
+    }
+
+    Logger.log("📧 processEmailQueue completed: " + emailsSent + " emails sent");
+  } catch (error) {
+    Logger.log("❌ Error processEmailQueue: " + error.toString());
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// ============================================================
+// TRIGGER SETUP FUNCTIONS
+// ============================================================
+
+/**
+ * Setup semua time-driven triggers untuk proses background
+ * JALANKAN MANUAL 1 KALI SAJA setelah deploy
+ */
+function setupTriggers() {
+  // Hapus semua trigger lama terlebih dahulu
+  const triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach((trigger) => {
+    const funcName = trigger.getHandlerFunction();
+    if (
+      funcName === "processEmailQueue" ||
+      funcName === "generateRekapKehadiran"
+    ) {
+      ScriptApp.deleteTrigger(trigger);
+      Logger.log("🗑️ Deleted old trigger: " + funcName);
+    }
+  });
+
+  // Setup trigger untuk processEmailQueue (tiap 5 menit)
+  ScriptApp.newTrigger("processEmailQueue")
+    .timeBased()
+    .everyMinutes(5)
+    .create();
+  Logger.log("✅ Created trigger: processEmailQueue (every 5 minutes)");
+
+  // Setup trigger untuk generateRekapKehadiran (tiap 3 menit)
+  ScriptApp.newTrigger("generateRekapKehadiran")
+    .timeBased()
+    .everyMinutes(3)
+    .create();
+  Logger.log("✅ Created trigger: generateRekapKehadiran (every 3 minutes)");
+
+  Logger.log(
+    "\n🎉 All triggers setup complete!\n" +
+      "- Email queue: processed every 5 minutes (max 90 emails/run)\n" +
+      "- Rekap kehadiran: updated every 3 minutes\n" +
+      "- Estimated: 90 emails/5min = ~18 emails/min = 1080 emails/hour\n" +
+      "- Daily capacity: ~1000-1500 emails (under MailApp limit 100/day buffer)"
+  );
+}
+
+/**
+ * Hapus semua triggers (untuk cleanup/reset)
+ */
+function removeTriggers() {
+  const triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach((trigger) => {
+    ScriptApp.deleteTrigger(trigger);
+    Logger.log("🗑️ Deleted trigger: " + trigger.getHandlerFunction());
+  });
+  Logger.log("✅ All triggers removed");
 }
 
 /**
@@ -1044,7 +1232,7 @@ function saveAttendanceRecord(qrData) {
       timestamp,
       data.nama,
       data.perusahaan,
-      data.email,
+      (data.email || "").toLowerCase().trim(), // Normalize email
       "Hadir",
     ];
 
@@ -1082,8 +1270,9 @@ function saveAttendanceRecord(qrData) {
  */
 function checkDuplicateAttendance(sheet, email) {
   try {
+    const normalizedEmail = (email || "").toLowerCase().trim();
     const cache = CacheService.getScriptCache();
-    const key = "attendance_" + (email || "").toLowerCase().trim();
+    const key = "attendance_" + normalizedEmail;
     if (key && cache.get(key)) {
       return true; // duplicate via cache
     }
@@ -1094,7 +1283,7 @@ function checkDuplicateAttendance(sheet, email) {
 
     // Cari cepat menggunakan TextFinder (lebih efisien daripada load seluruh kolom)
     const found = sheet
-      .createTextFinder(email)
+      .createTextFinder(normalizedEmail)
       .matchCase(false)
       .matchEntireCell(true)
       .findNext();
