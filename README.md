@@ -3,8 +3,8 @@
 ## 📋 Overview
 Web-based questionnaire system untuk Supplier Gathering 2025 PT PLN Nusantara Power dengan fitur:
 - Multi-step form (Step 1: Data perusahaan, Step 2: Kuesioner per unit)
-- QR Code generation untuk absensi kehadiran
-- Email async dengan antrian
+- **QR Code INSTANT di browser** (primary) + Email backup (async)
+- Email async dengan antrian untuk handle 500+ supplier
 - Scanner QR Code untuk buku tamu
 - Auto-generate rekap kehadiran
 
@@ -36,12 +36,31 @@ Fungsi ini akan membuat 2 time-driven triggers:
 
 ---
 
-## 📧 Email Queue System
+## 📱 QR Code Instant (Primary Method)
+
+### User Experience:
+1. **User submit form** → Loading 2-3 detik
+2. **QR Code langsung muncul di browser** ✅
+3. User bisa:
+   - **Screenshot** QR code
+   - **Download PNG** (button tersedia)
+   - Simpan untuk absensi saat acara
+
+### Keuntungan:
+- ✅ **Zero delay** - tidak perlu tunggu email
+- ✅ **No dependency** pada email quota
+- ✅ **Reliable** - user langsung dapat QR
+- ✅ **Self-service** - user kontrol penuh
+
+---
+
+## 📧 Email Queue System (Backup Method)
 
 ### Cara Kerja:
 1. **User submit form** → Email **TIDAK langsung terkirim** (instant response)
-2. Data email masuk ke **Sheet "Email Queue"** dengan status `pending`
-3. Trigger `processEmailQueue` jalan tiap **5 menit**:
+2. **QR Code langsung ditampilkan di browser** (primary)
+3. Data email masuk ke **Sheet "Email Queue"** dengan status `pending` (backup)
+4. Trigger `processEmailQueue` jalan tiap **5 menit**:
    - Ambil max 90 email dengan status `pending`
    - Kirim email + update status jadi `sent`
    - Retry 3x jika gagal, lalu status jadi `failed`
@@ -158,7 +177,8 @@ Jika ada error atau pertanyaan:
 
 ## 📝 Notes
 
+- **Primary QR delivery**: Instant di browser (100% reliable, no limit)
+- **Backup QR delivery**: Email (delay hingga 5 hari karena limit 100/hari)
 - **Limit MailApp**: 100 email/hari (free Gmail)
-- **Estimasi user**: 500 supplier → butuh ~5 hari untuk kirim semua email
-- **Solusi**: Tampilkan QR di browser sebagai backup (user bisa download langsung)
-- **Upgrade option**: Google Workspace ($6/bulan) → 1500 email/hari
+- **Estimasi user**: 500 supplier → email butuh ~5 hari, tapi semua langsung dapat QR di browser ✅
+- **Upgrade option**: Google Workspace ($6/bulan) → 1500 email/hari (opsional, tidak urgent)

@@ -693,21 +693,67 @@
                 display: inline-block;
                 vertical-align: middle;
                 margin-right: 8px;
-                color: #3b82f6;
+                color: #10b981;
               "
               aria-hidden="true"
             >
               <path
-                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+                fill-rule="evenodd"
+                d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z"
+                clip-rule="evenodd"
               />
               <path
-                d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+                d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"
               />
             </svg>
-            <strong>Silakan cek email Anda</strong> untuk mendapatkan QR Code
-            kehadiran
+            <strong>QR Code Kehadiran Anda (Simpan Sekarang!)</strong>
           </p>
-          <p style="margin: 0; color: #4a5568; font-size: 14px">
+          
+          <!-- QR Code Display -->
+          <div style="
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          ">
+            <div id="qrCodeContainer" style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              min-height: 280px;
+            ">
+              <div class="spinner" style="border-color: rgba(102, 126, 234, 0.3); border-top-color: #667eea;"></div>
+            </div>
+            <p style="color: #718096; font-size: 13px; margin-top: 15px;">
+              Screenshot atau download QR code ini untuk absensi kehadiran
+            </p>
+            <button
+              id="downloadQRBtn"
+              onclick="downloadQRCode()"
+              style="
+                display: none;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                padding: 12px 28px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-top: 12px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+              "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.3)'"
+            >
+              📥 Download QR Code (PNG)
+            </button>
+          </div>
+          
+          <p style="margin: 0 0 12px 0; color: #4a5568; font-size: 14px">
             <svg
               width="20"
               height="20"
@@ -722,16 +768,13 @@
               aria-hidden="true"
             >
               <path
-                fill-rule="evenodd"
-                d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z"
-                clip-rule="evenodd"
+                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
               />
               <path
-                d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"
+                d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
               />
             </svg>
-            QR Code tersebut digunakan untuk
-            <strong>absensi kehadiran</strong> saat acara berlangsung
+            QR Code juga akan <strong>dikirim via email</strong> (mungkin delay hingga beberapa hari karena volume tinggi)
           </p>
         </div>
 
@@ -2186,7 +2229,11 @@
                 .getElementById("loadingOverlay")
                 .classList.remove("show");
               document.getElementById("thankYouOverlay").style.display = "flex";
-              console.log("Success! Showing thank you message");
+              
+              // Generate & display QR code
+              generateAndDisplayQR(step1Data);
+              
+              console.log("Success! Showing thank you message with QR");
             })
             .withFailureHandler(function (error) {
               console.error("Error submitting:", error);
@@ -2200,7 +2247,11 @@
                 .getElementById("loadingOverlay")
                 .classList.remove("show");
               document.getElementById("thankYouOverlay").style.display = "flex";
-              console.log("Error occurred, but showing thank you message");
+              
+              // Generate & display QR code even on error (data likely saved)
+              generateAndDisplayQR(step1Data);
+              
+              console.log("Error occurred, but showing thank you message with QR");
             })
             .saveFormData(finalData);
         } else {
@@ -2236,6 +2287,100 @@
           }
         });
       });
+
+      // ============================================================
+      // QR CODE GENERATION & DISPLAY
+      // ============================================================
+      
+      let currentQRDataUrl = null;
+      
+      /**
+       * Generate dan tampilkan QR code di browser
+       */
+      function generateAndDisplayQR(supplierData) {
+        try {
+          // Data yang akan di-encode dalam QR Code (sama dengan email)
+          const qrData = JSON.stringify({
+            nama: supplierData.nama,
+            perusahaan: supplierData.namaPerusahaan,
+            email: supplierData.email,
+            timestamp: Date.now(),
+          });
+          
+          // Generate QR Code menggunakan qrserver.com API
+          const qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=280x280&format=png&data=" + encodeURIComponent(qrData);
+          
+          // Display QR code
+          const container = document.getElementById("qrCodeContainer");
+          container.innerHTML = `
+            <img 
+              src="${qrCodeUrl}" 
+              alt="QR Code Kehadiran" 
+              style="max-width: 100%; width: 280px; height: 280px; border-radius: 8px;" 
+              crossorigin="anonymous"
+              onload="handleQRLoaded(this)"
+              onerror="handleQRError()"
+            />
+          `;
+          
+          // Store for download
+          currentQRDataUrl = qrCodeUrl;
+          
+          console.log("QR Code generated and displayed");
+        } catch (error) {
+          console.error("Error generating QR:", error);
+          handleQRError();
+        }
+      }
+      
+      /**
+       * Handle QR loaded successfully
+       */
+      function handleQRLoaded(img) {
+        // Show download button
+        document.getElementById("downloadQRBtn").style.display = "inline-block";
+        console.log("QR Code loaded successfully");
+      }
+      
+      /**
+       * Handle QR load error
+       */
+      function handleQRError() {
+        const container = document.getElementById("qrCodeContainer");
+        container.innerHTML = `
+          <div style="color: #e53e3e; text-align: center; padding: 20px;">
+            <p style="margin: 0 0 10px 0; font-weight: 600;">⚠️ Gagal memuat QR Code</p>
+            <p style="margin: 0; font-size: 13px;">QR Code akan dikirim via email.</p>
+          </div>
+        `;
+        console.error("Failed to load QR Code");
+      }
+      
+      /**
+       * Download QR Code sebagai PNG
+       */
+      function downloadQRCode() {
+        if (!currentQRDataUrl) {
+          alert("QR Code belum tersedia untuk didownload");
+          return;
+        }
+        
+        try {
+          // Create temporary link untuk download
+          const link = document.createElement("a");
+          link.href = currentQRDataUrl;
+          link.download = "QR-Code-Kehadiran-Supplier-Gathering-2025.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          console.log("QR Code downloaded");
+        } catch (error) {
+          console.error("Error downloading QR:", error);
+          // Fallback: open in new tab
+          window.open(currentQRDataUrl, "_blank");
+        }
+      }
     </script>
   </body>
 </html>
