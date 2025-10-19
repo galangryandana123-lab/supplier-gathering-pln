@@ -799,11 +799,32 @@
       let availableCompanies = [];
       let selectedCompanyIndex = -1;
 
-      // Load available companies on page load
+      // Load available companies on page load (with localStorage cache)
       (function loadAvailableCompanies() {
         console.log("Loading available companies...");
 
         const dropdown = document.getElementById("companyDropdown");
+        const CACHE_KEY = "available_companies_cache";
+        const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+        // Try to load from localStorage first
+        try {
+          const cached = localStorage.getItem(CACHE_KEY);
+          if (cached) {
+            const data = JSON.parse(cached);
+            if (Date.now() - data.timestamp < CACHE_TTL) {
+              console.log("Using cached companies:", data.companies.length);
+              availableCompanies = data.companies;
+              setupCompanySearch();
+              loadSavedData();
+              return; // Skip server call
+            }
+          }
+        } catch (e) {
+          console.log("Cache read error:", e);
+        }
+
+        // Cache miss or expired - load from server
         dropdown.innerHTML =
           '<div class="company-dropdown-loading">Memuat daftar perusahaan...</div>';
         dropdown.style.display = "block";
@@ -815,6 +836,16 @@
 
             // Store globally
             availableCompanies = companies;
+
+            // Cache to localStorage
+            try {
+              localStorage.setItem(
+                CACHE_KEY,
+                JSON.stringify({ companies: companies, timestamp: Date.now() })
+              );
+            } catch (e) {
+              console.log("Cache write error:", e);
+            }
 
             // Hide loading
             dropdown.style.display = "none";
@@ -838,6 +869,17 @@
         const input = document.getElementById("namaPerusahaanInput");
         const dropdown = document.getElementById("companyDropdown");
 
+        // Debounce helper
+        let debounceTimer;
+        function debounce(func, delay) {
+          return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => func.apply(context, args), delay);
+          };
+        }
+
         // Show dropdown on focus
         input.addEventListener("focus", function () {
           if (availableCompanies.length > 0) {
@@ -845,10 +887,13 @@
           }
         });
 
-        // Filter on input
-        input.addEventListener("input", function () {
-          filterCompanies(this.value);
-        });
+        // Filter on input (debounced 200ms untuk mengurangi DOM manipulation)
+        input.addEventListener(
+          "input",
+          debounce(function () {
+            filterCompanies(this.value);
+          }, 200)
+        );
 
         // Keyboard navigation
         input.addEventListener("keydown", function (e) {

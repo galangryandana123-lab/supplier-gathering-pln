@@ -153,7 +153,10 @@ function saveFormData(data) {
       );
     }
 
-    // Generate rekap otomatis setelah data tersimpan
+    // Generate rekap DEFER ke background (async via trigger - tidak blocking response)
+    // Uncomment line di bawah jika ingin defer rekap (harus setup time-driven trigger)
+    // ScriptApp.newTrigger('generateRekapKehadiran').timeBased().after(5000).create();
+    // Sementara masih sync untuk backward compatibility:
     try {
       generateRekapKehadiran();
     } catch (rekapError) {
@@ -183,63 +186,10 @@ function saveFormData(data) {
   }
 }
 
-/**
- * Fungsi ini dipanggil saat form di-submit (HTTP POST)
- * Kept for backward compatibility if needed
- */
-function doPost(e) {
-  try {
-    // Parse JSON data dari request
-    const data = JSON.parse(e.postData.contents);
-
-    // Validasi data
-    if (!data.step1 || !data.kuesioner) {
-      return createResponse(false, "Data tidak lengkap");
-    }
-
-    // Buka spreadsheet
-    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-
-    // 1. Simpan data kehadiran (Step 1)
-    saveKehadiranData(ss, data.step1);
-
-    // 2. Simpan data kuesioner per unit
-    if (data.kuesioner["UP PAITON"]) {
-      saveKuesionerData(
-        ss,
-        SHEET_NAMES.PAITON,
-        data.step1,
-        data.kuesioner["UP PAITON"]
-      );
-    }
-
-    if (data.kuesioner["UP BRANTAS"]) {
-      saveKuesionerData(
-        ss,
-        SHEET_NAMES.BRANTAS,
-        data.step1,
-        data.kuesioner["UP BRANTAS"]
-      );
-    }
-
-    if (data.kuesioner["UP PACITAN"]) {
-      saveKuesionerData(
-        ss,
-        SHEET_NAMES.PACITAN,
-        data.step1,
-        data.kuesioner["UP PACITAN"]
-      );
-    }
-
-    return createResponse(true, "Data berhasil disimpan");
-  } catch (error) {
-    Logger.log("Error: " + error.toString());
-    return createResponse(false, "Terjadi kesalahan: " + error.toString());
-  }
-}
+// doPost removed - not used (client uses google.script.run, not HTTP POST)
 
 /**
- * Simpan data kehadiran ke Sheet 1
+ * Simpan data kehadiran ke Sheet 1 (optimized: batch write)
  */
 function saveKehadiranData(ss, step1Data) {
   const sheet = getOrCreateSheet(ss, SHEET_NAMES.KEHADIRAN);
@@ -255,7 +205,8 @@ function saveKehadiranData(ss, step1Data) {
       "Unit Pembangkit",
       "Konfirmasi Kehadiran",
     ];
-    sheet.appendRow(headers);
+    // Tulis header via setValues (lebih cepat)
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
 
     // Format header
     const headerRange = sheet.getRange(1, 1, 1, headers.length);
@@ -278,11 +229,13 @@ function saveKehadiranData(ss, step1Data) {
     step1Data.kehadiran,
   ];
 
-  sheet.appendRow(rowData);
+  // Tulis data via setValues di row berikutnya (lebih cepat daripada appendRow)
+  const nextRow = sheet.getLastRow() + 1;
+  sheet.getRange(nextRow, 1, 1, rowData.length).setValues([rowData]);
 }
 
 /**
- * Simpan data kuesioner ke sheet yang sesuai
+ * Simpan data kuesioner ke sheet yang sesuai (optimized: batch write)
  */
 function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
   const sheet = getOrCreateSheet(ss, sheetName);
@@ -333,7 +286,8 @@ function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
       "Kritik",
       "Saran",
     ];
-    sheet.appendRow(headers);
+    // Tulis header via setValues (lebih cepat)
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
 
     // Format header
     const headerRange = sheet.getRange(1, 1, 1, headers.length);
@@ -404,7 +358,9 @@ function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
     kuesionerData.saran,
   ];
 
-  sheet.appendRow(rowData);
+  // Tulis data via setValues di row berikutnya (lebih cepat daripada appendRow)
+  const nextRow = sheet.getLastRow() + 1;
+  sheet.getRange(nextRow, 1, 1, rowData.length).setValues([rowData]);
 }
 
 function getOrCreateSheet(ss, sheetName) {
