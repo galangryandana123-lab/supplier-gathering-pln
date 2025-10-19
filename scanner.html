@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <base target="_top" />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Scanner QR Code - Buku Tamu Supplier Gathering 2025</title>
+
+    <!-- html5-qrcode library -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .header .subtitle {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 30px;
+      }
+
+      .scanner-container {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+      }
+
+      #reader {
+        border-radius: 8px;
+        overflow: hidden;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      .controls {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      }
+
+      .btn-secondary {
+        background: #e2e8f0;
+        color: #2d3748;
+      }
+
+      .btn-secondary:hover {
+        background: #cbd5e0;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .result-container {
+        display: none;
+        background: white;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 25px;
+      }
+
+      .result-container.show {
+        display: block;
+      }
+
+      .result-container.success {
+        border-color: #48bb78;
+        background: #f0fff4;
+      }
+
+      .result-container.error {
+        border-color: #f56565;
+        background: #fff5f5;
+      }
+
+      .result-container.warning {
+        border-color: #ed8936;
+        background: #fffaf0;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e2e8f0;
+      }
+
+      .result-icon {
+        font-size: 32px;
+      }
+
+      .result-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #2d3748;
+      }
+
+      .result-data {
+        margin-top: 15px;
+      }
+
+      .data-item {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid #e2e8f0;
+        flex-wrap: wrap;
+      }
+
+      .data-item:last-child {
+        border-bottom: none;
+      }
+
+      .data-label {
+        font-weight: 600;
+        color: #4a5568;
+        min-width: 120px;
+        flex-shrink: 0;
+      }
+
+      .data-value {
+        color: #2d3748;
+        flex: 1;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        min-width: 0;
+      }
+
+      @media (max-width: 640px) {
+        .data-item {
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .data-label {
+          min-width: auto;
+          width: 100%;
+        }
+
+        .data-value {
+          width: 100%;
+          font-size: 14px;
+        }
+      }
+
+      .message {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .message.show {
+        display: block;
+      }
+
+      .message.success {
+        background: #c6f6d5;
+        color: #22543d;
+        border: 1px solid #48bb78;
+      }
+
+      .message.error {
+        background: #fed7d7;
+        color: #742a2a;
+        border: 1px solid #f56565;
+      }
+
+      .message.warning {
+        background: #c6f6d5;
+        color: #22543d;
+        border: 1px solid #48bb78;
+      }
+
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: white;
+      }
+
+      .loading-overlay.show {
+        display: flex;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 15px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .instruction-box {
+        background: #eef2ff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border-left: 4px solid #667eea;
+      }
+
+      .instruction-box h3 {
+        color: #1e3c72;
+        font-size: 16px;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      .instruction-box ul {
+        margin: 0;
+        padding-left: 20px;
+        color: #4a5568;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .instruction-box li {
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 10px;
+        }
+
+        .header {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 18px;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .controls {
+          flex-direction: column;
+        }
+
+        .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+      <div>Menyimpan data...</div>
+    </div>
+
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1>SCANNER QR CODE BUKU TAMU</h1>
+        <div class="subtitle">
+          Supplier Gathering 2025 - PT PLN Nusantara Power
+        </div>
+      </div>
+
+      <div class="content">
+        <!-- Message Alert -->
+        <div class="message" id="messageAlert"></div>
+
+        <!-- Scanner Container -->
+        <div class="scanner-container">
+          <div id="reader"></div>
+          <div class="controls">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="startBtn"
+              onclick="startScanner()"
+            >
+              🎥 Mulai Scan
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="stopBtn"
+              onclick="stopScanner()"
+              style="display: none"
+            >
+              ⏹️ Stop Scan
+            </button>
+          </div>
+        </div>
+
+        <!-- Result Container -->
+        <div class="result-container" id="resultContainer">
+          <div class="result-header">
+            <div class="result-icon" id="resultIcon">✅</div>
+            <div class="result-title" id="resultTitle">Data Supplier</div>
+          </div>
+          <div class="result-data" id="resultData"></div>
+          <div
+            style="
+              margin-top: 20px;
+              display: flex;
+              gap: 12px;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="saveBtn"
+              onclick="saveAttendance()"
+              style="flex: 1; min-width: 140px"
+            >
+              💾 Simpan ke Buku Tamu
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="resetScanner()"
+              style="flex: 1; min-width: 140px"
+            >
+              🔄 Scan Lagi
+            </button>
+          </div>
+        </div>
+
+        <!-- Instruction Box -->
+        <div class="instruction-box">
+          <h3>📋 Petunjuk Penggunaan Scanner</h3>
+          <ul>
+            <li>
+              Klik tombol <strong>"Mulai Scan"</strong> untuk mengaktifkan
+              kamera
+            </li>
+            <li>Arahkan kamera ke <strong>QR Code supplier</strong></li>
+            <li>Sistem akan otomatis membaca QR code</li>
+            <li>Verifikasi data supplier yang muncul</li>
+            <li>
+              Klik <strong>"Simpan ke Buku Tamu"</strong> untuk mencatat
+              kehadiran
+            </li>
+            <li>QR code yang sama tidak dapat di-scan dua kali</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let html5QrcodeScanner = null;
+      let currentScanResult = null;
+      let isScanning = false;
+
+      // Initialize on page load
+      window.onload = function () {
+        console.log("Scanner page loaded");
+      };
+
+      // Start QR Scanner
+      function startScanner() {
+        if (isScanning) return;
+
+        try {
+          html5QrcodeScanner = new Html5Qrcode("reader");
+
+          const config = {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+            aspectRatio: 1.0,
+          };
+
+          html5QrcodeScanner
+            .start(
+              { facingMode: "environment" },
+              config,
+              onScanSuccess,
+              onScanError
+            )
+            .then(() => {
+              isScanning = true;
+              document.getElementById("startBtn").style.display = "none";
+              document.getElementById("stopBtn").style.display = "inline-block";
+              showMessage(
+                "Scanner aktif. Arahkan kamera ke QR code.",
+                "success"
+              );
+            })
+            .catch((err) => {
+              console.error("Error starting scanner:", err);
+              showMessage(
+                "Gagal memulai scanner. Pastikan kamera diizinkan.",
+                "error"
+              );
+            });
+        } catch (error) {
+          console.error("Scanner error:", error);
+          showMessage("Error: " + error.toString(), "error");
+        }
+      }
+
+      // Stop QR Scanner
+      function stopScanner() {
+        if (html5QrcodeScanner && isScanning) {
+          html5QrcodeScanner
+            .stop()
+            .then(() => {
+              isScanning = false;
+              document.getElementById("startBtn").style.display =
+                "inline-block";
+              document.getElementById("stopBtn").style.display = "none";
+              // Hide message when manually stopped
+              hideMessage();
+            })
+            .catch((err) => {
+              console.error("Error stopping scanner:", err);
+            });
+        }
+      }
+
+      // On Scan Success
+      function onScanSuccess(decodedText, decodedResult) {
+        console.log("QR Code detected:", decodedText);
+
+        // Stop scanner immediately after successful scan
+        stopScanner();
+
+        try {
+          // Parse QR data
+          currentScanResult = JSON.parse(decodedText);
+
+          // Display result
+          displayResult(currentScanResult);
+        } catch (error) {
+          console.error("Error parsing QR data:", error);
+          showMessage("QR code tidak valid: " + error.toString(), "error");
+        }
+      }
+
+      // On Scan Error (silent - happens frequently)
+      function onScanError(errorMessage) {
+        // Do nothing - normal behavior when no QR detected
+      }
+
+      // Display scan result
+      function displayResult(data) {
+        const resultContainer = document.getElementById("resultContainer");
+        const resultData = document.getElementById("resultData");
+
+        // Build HTML for data display
+        let html = "";
+        html += `<div class="data-item"><div class="data-label">Nama:</div><div class="data-value">${
+          data.nama || "-"
+        }</div></div>`;
+        html += `<div class="data-item"><div class="data-label">Perusahaan:</div><div class="data-value">${
+          data.perusahaan || "-"
+        }</div></div>`;
+        html += `<div class="data-item"><div class="data-label">Email:</div><div class="data-value">${
+          data.email || "-"
+        }</div></div>`;
+
+        resultData.innerHTML = html;
+        resultContainer.classList.add("show");
+        resultContainer.classList.remove("success", "error", "warning");
+
+        showMessage(
+          "QR code berhasil di-scan! Klik 'Simpan ke Buku Tamu' untuk mencatat kehadiran.",
+          "success"
+        );
+      }
+
+      // Save attendance to Buku Tamu sheet
+      function saveAttendance() {
+        if (!currentScanResult) {
+          showMessage("Tidak ada data untuk disimpan", "error");
+          return;
+        }
+
+        // Show loading
+        document.getElementById("loadingOverlay").classList.add("show");
+        document.getElementById("saveBtn").disabled = true;
+
+        // Call Google Apps Script function
+        google.script.run
+          .withSuccessHandler(function (response) {
+            document.getElementById("loadingOverlay").classList.remove("show");
+            document.getElementById("saveBtn").disabled = false;
+
+            if (response.success) {
+              // Success
+              const resultContainer =
+                document.getElementById("resultContainer");
+              resultContainer.classList.add("success");
+              document.getElementById("resultIcon").textContent = "✅";
+              document.getElementById("resultTitle").textContent =
+                "Absensi Berhasil!";
+              showMessage(response.message, "success");
+
+              // Reload stats
+              loadStats();
+
+              // Auto reset after 3 seconds
+              setTimeout(() => {
+                resetScanner();
+              }, 3000);
+            } else {
+              // Error or duplicate
+              const resultContainer =
+                document.getElementById("resultContainer");
+              resultContainer.classList.add("warning");
+              document.getElementById("resultIcon").textContent = "⚠️";
+              document.getElementById("resultTitle").textContent =
+                "Sudah Absen Sebelumnya";
+              showMessage(response.message, "warning");
+            }
+          })
+          .withFailureHandler(function (error) {
+            document.getElementById("loadingOverlay").classList.remove("show");
+            document.getElementById("saveBtn").disabled = false;
+            console.error("Error saving attendance:", error);
+            showMessage("Error: " + error.toString(), "error");
+          })
+          .saveAttendanceRecord(currentScanResult);
+      }
+
+      // Reset scanner for next scan
+      function resetScanner() {
+        currentScanResult = null;
+
+        // Hide and reset result container
+        const resultContainer = document.getElementById("resultContainer");
+        resultContainer.classList.remove("show", "success", "error", "warning");
+
+        // Reset icon and title to default
+        document.getElementById("resultIcon").textContent = "✅";
+        document.getElementById("resultTitle").textContent = "Data Supplier";
+
+        // Clear data display
+        document.getElementById("resultData").innerHTML = "";
+
+        // Hide message
+        hideMessage();
+
+        // Start scanner again
+        startScanner();
+      }
+
+      // Show message
+      function showMessage(text, type) {
+        const messageAlert = document.getElementById("messageAlert");
+        messageAlert.textContent = text;
+        messageAlert.className = "message show " + type;
+      }
+
+      // Hide message
+      function hideMessage() {
+        const messageAlert = document.getElementById("messageAlert");
+        messageAlert.classList.remove("show");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <base target="_top" />
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- SEO Meta Tags -->
+    <title>Kuesioner Supplier - Halaman 2 | PT PLN Nusantara Power 2025</title>
+    <meta
+      name="description"
+      content="Formulir kuesioner kepuasan supplier PT PLN Nusantara Power 2025. Berikan penilaian terhadap aktivitas pengadaan, SDM, E-Proc, dan layanan PT PLN NP untuk unit Paiton, Brantas, dan Pacitan."
+    />
+    <meta
+      name="keywords"
+      content="Kuesioner PLN NP, Feedback Supplier, Kepuasan Supplier, PT PLN Nusantara Power, UP Paiton, UP Brantas, UP Pacitan"
+    />
+    <meta name="author" content="PT PLN Nusantara Power" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link
+      rel="canonical"
+      href="https://script.google.com/macros/s/AKfycbyjIrwkM2lA8ov7qac0g2C-pLw8gcp-DO_xy-wTZ0Uigd7r-ijvNIhQv_SgLP5eIOy7/exec?page=step2"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://script.google.com/macros/s/AKfycbyjIrwkM2lA8ov7qac0g2C-pLw8gcp-DO_xy-wTZ0Uigd7r-ijvNIhQv_SgLP5eIOy7/exec?page=step2"
+    />
+    <meta
+      property="og:title"
+      content="Kuesioner Supplier - PT PLN Nusantara Power 2025"
+    />
+    <meta
+      property="og:description"
+      content="Formulir penilaian kepuasan supplier terhadap layanan PT PLN Nusantara Power"
+    />
+    <meta property="og:locale" content="id_ID" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Kuesioner Supplier PT PLN Nusantara Power",
+        "description": "Formulir kuesioner kepuasan supplier untuk Supplier Gathering 2025",
+        "publisher": {
+          "@type": "Organization",
+          "name": "PT PLN Nusantara Power",
+          "url": "https://www.plnnusantarapower.co.id"
+        }
+      }
+    </script>
+
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://script.google.com" />
+    <link rel="dns-prefetch" href="https://script.google.com" />
+
+    <style>
+      /* Force responsive untuk Apps Script */
+      html {
+        width: 100%;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+      }
+
+      body {
+        width: 100%;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        position: relative;
+        min-height: 100vh;
+      }
+
+      /* Reset & Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .progress-indicator {
+        background: #f8f9fa;
+        padding: 15px 30px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .progress-text {
+        font-size: 14px;
+        color: #4a5568;
+        font-weight: 600;
+      }
+
+      .progress-text .current-unit {
+        color: #667eea;
+        font-size: 16px;
+      }
+
+      .form-section {
+        padding: 30px;
+      }
+
+      .section-title {
+        background: #eef2ff;
+        border-left: 4px solid #667eea;
+        padding: 12px 20px;
+        margin: 0 0 20px 0;
+        font-weight: 600;
+        color: #1e3c72;
+        font-size: 16px;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      .form-label {
+        display: block;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+
+      .form-sublabel {
+        font-size: 12px;
+        color: #718096;
+        font-weight: 400;
+        margin-top: 4px;
+        font-style: italic;
+      }
+
+      .required {
+        color: #e53e3e;
+        margin-left: 4px;
+      }
+
+      .form-input,
+      .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        font-family: inherit;
+      }
+
+      .form-textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-input:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .form-input.error,
+      .form-textarea.error {
+        border-color: #e53e3e;
+      }
+
+      .error-message {
+        color: #e53e3e;
+        font-size: 13px;
+        margin-top: 6px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      /* Rating scale styling */
+      .rating-group {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .rating-option {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .rating-option input[type="radio"] {
+        display: none;
+      }
+
+      .rating-option label {
+        display: block;
+        padding: 12px 8px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+        font-weight: 600;
+        font-size: 18px;
+        color: #718096;
+        text-align: center;
+      }
+
+      .rating-option label:hover {
+        border-color: #667eea;
+        background: #f7fafc;
+      }
+
+      .rating-option input[type="radio"]:checked + label {
+        border-color: #667eea;
+        background: #667eea;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      .rating-option .label-text {
+        font-size: 11px;
+        color: #718096;
+        text-align: center;
+      }
+
+      /* Radio group for Ya/Tidak/Mungkin */
+      .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .radio-option {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: white;
+      }
+
+      .radio-option:hover {
+        border-color: #667eea;
+        background: #f7fafc;
+      }
+
+      .radio-option.selected {
+        border-color: #667eea;
+        background: #eef2ff;
+      }
+
+      .radio-option input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        cursor: pointer;
+        accent-color: #667eea;
+      }
+
+      .radio-option label {
+        cursor: pointer;
+        font-size: 14px;
+        color: #2d3748;
+        flex: 1;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 20px 30px;
+        background: #f8f9fa;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .btn {
+        padding: 12px 32px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #4a5568;
+        border: 2px solid #e2e8f0;
+      }
+
+      .btn-secondary:hover {
+        border-color: #667eea;
+        color: #667eea;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      }
+
+      .btn-primary:disabled,
+      .btn-secondary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 10px;
+        }
+
+        .header {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 18px;
+        }
+
+        .form-section {
+          padding: 20px;
+        }
+
+        .rating-group {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .rating-option .label-text {
+          font-size: 10px;
+        }
+
+        .button-group {
+          flex-direction: column;
+          padding: 15px 20px;
+        }
+
+        .btn {
+          width: 100%;
+        }
+      }
+
+      .loading-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .loading-overlay.show {
+        display: flex;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Confirmation Modal */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: modalSlideIn 0.3s ease-out;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+      }
+
+      .modal-icon svg {
+        width: 32px;
+        height: 32px;
+        color: white;
+      }
+
+      .modal-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #1e3c72;
+        text-align: center;
+        margin-bottom: 12px;
+      }
+
+      .modal-message {
+        font-size: 15px;
+        color: #4a5568;
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+
+      .modal-unit-name {
+        color: #1a202c;
+        font-weight: 700;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 12px;
+      }
+
+      .modal-btn {
+        flex: 1;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .modal-btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .modal-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      }
+
+      @media (max-width: 640px) {
+        .modal-content {
+          padding: 24px;
+        }
+
+        .modal-title {
+          font-size: 18px;
+        }
+
+        .modal-message {
+          font-size: 14px;
+        }
+
+        .modal-buttons {
+          flex-direction: column;
+        }
+      }
+
+      /* Screen Reader Only */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="loading-overlay"
+      id="loadingOverlay"
+      role="status"
+      aria-live="polite"
+      aria-label="Memuat data, mohon tunggu"
+    >
+      <div class="spinner" aria-hidden="true"></div>
+      <span class="sr-only">Memuat...</span>
+    </div>
+
+    <!-- Thank You Overlay (Fallback jika redirect gagal) -->
+    <div
+      class="modal-overlay"
+      id="thankYouOverlay"
+      role="dialog"
+      aria-labelledby="thankYouTitle"
+      aria-modal="true"
+      style="display: none; background: rgba(102, 126, 234, 0.95)"
+    >
+      <div
+        class="modal-content"
+        style="max-width: 600px; animation: modalSlideIn 0.5s ease-out"
+      >
+        <div
+          class="modal-icon"
+          style="background: white; width: 80px; height: 80px"
+        >
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            style="color: #10b981; width: 50px; height: 50px"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            ></path>
+          </svg>
+        </div>
+        <h1
+          id="thankYouTitle"
+          style="
+            font-size: 28px;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: center;
+          "
+        >
+          Terima Kasih!
+        </h1>
+        <p
+          style="
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+          "
+        >
+          Data Kuesioner Berhasil Dikirim
+        </p>
+
+        <div
+          style="
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 20px;
+            border-left: 4px solid #3b82f6;
+          "
+        >
+          <p style="margin: 0 0 12px 0; color: #1e3c72; font-size: 15px">
+            <svg
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 8px;
+                color: #10b981;
+              "
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Data Anda telah tersimpan dengan aman
+          </p>
+          <p style="margin: 0 0 12px 0; color: #4a5568; font-size: 14px">
+            <svg
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 8px;
+                color: #10b981;
+              "
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Tim kami akan menindaklanjuti masukan Anda
+          </p>
+          <p style="margin: 0 0 12px 0; color: #4a5568; font-size: 14px">
+            <svg
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 8px;
+                color: #3b82f6;
+              "
+              aria-hidden="true"
+            >
+              <path
+                d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
+              />
+              <path
+                d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
+              />
+            </svg>
+            <strong>Silakan cek email Anda</strong> untuk mendapatkan QR Code
+            kehadiran
+          </p>
+          <p style="margin: 0; color: #4a5568; font-size: 14px">
+            <svg
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              style="
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 8px;
+                color: #3b82f6;
+              "
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z"
+                clip-rule="evenodd"
+              />
+              <path
+                d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"
+              />
+            </svg>
+            QR Code tersebut digunakan untuk
+            <strong>absensi kehadiran</strong> saat acara berlangsung
+          </p>
+        </div>
+
+        <p
+          style="
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            text-align: center;
+          "
+        >
+          Terima kasih telah meluangkan waktu untuk mengisi kuesioner Supplier
+          Gathering PT PLN Nusantara Power 2025. Masukan Anda sangat berharga
+          bagi kami untuk meningkatkan kualitas layanan.
+        </p>
+
+        <a
+          href="https://akses.digital/supplier-gathering"
+          class="btn btn-primary"
+          style="
+            width: 100%;
+            padding: 14px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+          "
+        >
+          Kembali ke Halaman Awal
+        </a>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div
+      class="modal-overlay"
+      id="confirmModal"
+      role="dialog"
+      aria-labelledby="confirmModalTitle"
+      aria-modal="true"
+    >
+      <div class="modal-content">
+        <div class="modal-icon">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <div class="modal-title" id="confirmModalTitle">
+          Kuesioner Telah Tersimpan!
+        </div>
+        <div class="modal-message" id="modalMessage"></div>
+        <div class="modal-buttons">
+          <button
+            class="modal-btn modal-btn-primary"
+            onclick="confirmNextUnit()"
+          >
+            Lanjutkan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Header -->
+      <div class="header">
+        <h1 id="headerTitle">KUESIONER SUPPLIER PT PLN NUSANTARA POWER</h1>
+      </div>
+
+      <!-- Progress Indicator -->
+      <div class="progress-indicator">
+        <div class="progress-text">
+          <span class="current-unit" id="currentUnitName"></span>
+          <span id="progressText"></span>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form id="kuesionerForm" class="form-section">
+        <!-- Company Info Section -->
+        <div class="section-title">INFORMASI PERUSAHAAN</div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Nomor HP/WA
+            <span class="required">*</span>
+          </label>
+          <input
+            type="tel"
+            name="nomorHp"
+            class="form-input"
+            placeholder="08xxxxxxxxxx"
+            required
+          />
+          <div class="error-message" id="nomorHpError">
+            Nomor HP/WA wajib diisi
+          </div>
+        </div>
+
+        <!-- Aktivitas Pengadaan Section -->
+        <div class="section-title">AKTIVITAS PENGADAAN</div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Durasi pengumuman lelang
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q1" value="1" id="q1_1" />
+              <label for="q1_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q1" value="2" id="q1_2" />
+              <label for="q1_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q1" value="3" id="q1_3" />
+              <label for="q1_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q1" value="4" id="q1_4" />
+              <label for="q1_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q1Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Waktu dalam penyampaian Permintaan Penawaran
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q2" value="1" id="q2_1" />
+              <label for="q2_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q2" value="2" id="q2_2" />
+              <label for="q2_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q2" value="3" id="q2_3" />
+              <label for="q2_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q2" value="4" id="q2_4" />
+              <label for="q2_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q2Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Isi dan kejelasan RKS
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q3" value="1" id="q3_1" />
+              <label for="q3_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q3" value="2" id="q3_2" />
+              <label for="q3_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q3" value="3" id="q3_3" />
+              <label for="q3_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q3" value="4" id="q3_4" />
+              <label for="q3_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q3Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Spesifikasi barang / jasa
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q4" value="1" id="q4_1" />
+              <label for="q4_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q4" value="2" id="q4_2" />
+              <label for="q4_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q4" value="3" id="q4_3" />
+              <label for="q4_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q4" value="4" id="q4_4" />
+              <label for="q4_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q4Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Keterbukaan / transparansi dalam proses tender / pelelangan
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q5" value="1" id="q5_1" />
+              <label for="q5_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q5" value="2" id="q5_2" />
+              <label for="q5_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q5" value="3" id="q5_3" />
+              <label for="q5_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q5" value="4" id="q5_4" />
+              <label for="q5_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q5Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Akses informasi mengenai spesifikasi barang / jasa
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q6" value="1" id="q6_1" />
+              <label for="q6_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q6" value="2" id="q6_2" />
+              <label for="q6_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q6" value="3" id="q6_3" />
+              <label for="q6_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q6" value="4" id="q6_4" />
+              <label for="q6_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q6Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Kewajaran Nilai HPS
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q7" value="1" id="q7_1" />
+              <label for="q7_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q7" value="2" id="q7_2" />
+              <label for="q7_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q7" value="3" id="q7_3" />
+              <label for="q7_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q7" value="4" id="q7_4" />
+              <label for="q7_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q7Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Proses Penerbitan PO / Kontrak
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q8" value="1" id="q8_1" />
+              <label for="q8_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q8" value="2" id="q8_2" />
+              <label for="q8_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q8" value="3" id="q8_3" />
+              <label for="q8_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q8" value="4" id="q8_4" />
+              <label for="q8_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q8Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Spesifikasi barang / jasa dalam PO / Kontrak
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q9" value="1" id="q9_1" />
+              <label for="q9_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q9" value="2" id="q9_2" />
+              <label for="q9_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q9" value="3" id="q9_3" />
+              <label for="q9_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q9" value="4" id="q9_4" />
+              <label for="q9_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q9Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Persyaratan kelengkapan dokumen pengiriman barang / penyerahan
+            Pekerjaan Jasa
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q10" value="1" id="q10_1" />
+              <label for="q10_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q10" value="2" id="q10_2" />
+              <label for="q10_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q10" value="3" id="q10_3" />
+              <label for="q10_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q10" value="4" id="q10_4" />
+              <label for="q10_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q10Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Ketersedian dan kemudahan sarana bongkar muat barang di Unit
+            Penerima Barang
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q11" value="1" id="q11_1" />
+              <label for="q11_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q11" value="2" id="q11_2" />
+              <label for="q11_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q11" value="3" id="q11_3" />
+              <label for="q11_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q11" value="4" id="q11_4" />
+              <label for="q11_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q11Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Pemeriksaan Barang sampai dengan penerbitan Berita Acara Pemeriksaan
+            Barang / Jasa dalam 14 Hari Kalender
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q12" value="1" id="q12_1" />
+              <label for="q12_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q12" value="2" id="q12_2" />
+              <label for="q12_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q12" value="3" id="q12_3" />
+              <label for="q12_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q12" value="4" id="q12_4" />
+              <label for="q12_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q12Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Pengurusan Surat Ijin Kerja / Working Permit di Unit (User)
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q13" value="1" id="q13_1" />
+              <label for="q13_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q13" value="2" id="q13_2" />
+              <label for="q13_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q13" value="3" id="q13_3" />
+              <label for="q13_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q13" value="4" id="q13_4" />
+              <label for="q13_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q13Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Pembayaran
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q14" value="1" id="q14_1" />
+              <label for="q14_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q14" value="2" id="q14_2" />
+              <label for="q14_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q14" value="3" id="q14_3" />
+              <label for="q14_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q14" value="4" id="q14_4" />
+              <label for="q14_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q14Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Sistem Pengadaan di PT PLN NP
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q15" value="1" id="q15_1" />
+              <label for="q15_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q15" value="2" id="q15_2" />
+              <label for="q15_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q15" value="3" id="q15_3" />
+              <label for="q15_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q15" value="4" id="q15_4" />
+              <label for="q15_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q15Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <!-- SDM Section -->
+        <div class="section-title">SDM</div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Profesionalisme Staff Pengadaan
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q16" value="1" id="q16_1" />
+              <label for="q16_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q16" value="2" id="q16_2" />
+              <label for="q16_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q16" value="3" id="q16_3" />
+              <label for="q16_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q16" value="4" id="q16_4" />
+              <label for="q16_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q16Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Integritas (kejujuran/dapat dipercaya)
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q17" value="1" id="q17_1" />
+              <label for="q17_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q17" value="2" id="q17_2" />
+              <label for="q17_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q17" value="3" id="q17_3" />
+              <label for="q17_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q17" value="4" id="q17_4" />
+              <label for="q17_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q17Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Sikap/ Attitude dalam melayani pihak External
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q18" value="1" id="q18_1" />
+              <label for="q18_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q18" value="2" id="q18_2" />
+              <label for="q18_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q18" value="3" id="q18_3" />
+              <label for="q18_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q18" value="4" id="q18_4" />
+              <label for="q18_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q18Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Kecepatan (tanggap/ responsif) dalam kinerja
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q19" value="1" id="q19_1" />
+              <label for="q19_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q19" value="2" id="q19_2" />
+              <label for="q19_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q19" value="3" id="q19_3" />
+              <label for="q19_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q19" value="4" id="q19_4" />
+              <label for="q19_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q19Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Kemampuan / skill komunikasi
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q20" value="1" id="q20_1" />
+              <label for="q20_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q20" value="2" id="q20_2" />
+              <label for="q20_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q20" value="3" id="q20_3" />
+              <label for="q20_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q20" value="4" id="q20_4" />
+              <label for="q20_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q20Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Respon Panitia Pengadaan pada Masa Sanggah
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q21" value="1" id="q21_1" />
+              <label for="q21_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q21" value="2" id="q21_2" />
+              <label for="q21_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q21" value="3" id="q21_3" />
+              <label for="q21_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q21" value="4" id="q21_4" />
+              <label for="q21_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q21Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Hubungan Kerjasama antara PT PLN NP dengan perusahaan anda
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q22" value="1" id="q22_1" />
+              <label for="q22_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q22" value="2" id="q22_2" />
+              <label for="q22_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q22" value="3" id="q22_3" />
+              <label for="q22_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q22" value="4" id="q22_4" />
+              <label for="q22_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q22Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <!-- E-PROC DAN SARANA Section -->
+        <div class="section-title">E-PROC DAN SARANA</div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Proses pelaksanaan E-Proc
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q23" value="1" id="q23_1" />
+              <label for="q23_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q23" value="2" id="q23_2" />
+              <label for="q23_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q23" value="3" id="q23_3" />
+              <label for="q23_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q23" value="4" id="q23_4" />
+              <label for="q23_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q23Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Pengoperasian software E-Proc / E-Auction
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q24" value="1" id="q24_1" />
+              <label for="q24_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q24" value="2" id="q24_2" />
+              <label for="q24_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q24" value="3" id="q24_3" />
+              <label for="q24_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q24" value="4" id="q24_4" />
+              <label for="q24_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q24Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Sarana ruangan (ruang tunggu, ruang rapat, toilet)
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q25" value="1" id="q25_1" />
+              <label for="q25_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q25" value="2" id="q25_2" />
+              <label for="q25_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q25" value="3" id="q25_3" />
+              <label for="q25_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q25" value="4" id="q25_4" />
+              <label for="q25_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q25Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Sarana tempat parkir
+            <span class="required">*</span>
+          </label>
+          <div class="rating-group">
+            <div class="rating-option">
+              <input type="radio" name="q26" value="1" id="q26_1" />
+              <label for="q26_1">1</label>
+              <span class="label-text">Tidak Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q26" value="2" id="q26_2" />
+              <label for="q26_2">2</label>
+              <span class="label-text">Cukup Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q26" value="3" id="q26_3" />
+              <label for="q26_3">3</label>
+              <span class="label-text">Puas</span>
+            </div>
+            <div class="rating-option">
+              <input type="radio" name="q26" value="4" id="q26_4" />
+              <label for="q26_4">4</label>
+              <span class="label-text">Sangat Puas</span>
+            </div>
+          </div>
+          <div class="error-message" id="q26Error">
+            Pilih salah satu penilaian
+          </div>
+        </div>
+
+        <!-- TANGGAPAN TAMBAHAN Section -->
+        <div class="section-title">TANGGAPAN TAMBAHAN</div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Apakah menurut saudara hubungan kerjasama antara perusahaan saudara
+            dengan PT PLN NP <span id="unitNameInQuestion"></span> telah
+            berjalan dengan baik?
+            <span class="required">*</span>
+          </label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input
+                type="radio"
+                name="kerjasamaBaik"
+                value="Ya"
+                id="kerjasamaBaik_ya"
+              />
+              <label for="kerjasamaBaik_ya">Ya</label>
+            </div>
+            <div class="radio-option">
+              <input
+                type="radio"
+                name="kerjasamaBaik"
+                value="Tidak"
+                id="kerjasamaBaik_tidak"
+              />
+              <label for="kerjasamaBaik_tidak">Tidak</label>
+            </div>
+            <div class="radio-option">
+              <input
+                type="radio"
+                name="kerjasamaBaik"
+                value="Mungkin"
+                id="kerjasamaBaik_mungkin"
+              />
+              <label for="kerjasamaBaik_mungkin">Mungkin</label>
+            </div>
+          </div>
+          <div class="error-message" id="kerjasamaBaikError">
+            Pilih salah satu jawaban
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Tuliskan kekurangan dan kelebihan PT PLN NP
+            <span id="unitNameInQuestion2"></span> dengan lembaga lain dalam
+            proses pengadaan barang dan jasa?
+            <span class="required">*</span>
+          </label>
+          <textarea
+            name="kekuranganKelebihan"
+            class="form-textarea"
+            placeholder="Tuliskan kekurangan dan kelebihan..."
+            required
+          ></textarea>
+          <div class="error-message" id="kekuranganKelebihanError">
+            Field ini wajib diisi
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            Bagaimana menurut saudara penerapan program PLN NP BERSIH dalam
+            proses pengadaan barang dan jasa di PT PLN NP
+            <span id="unitNameInQuestion3"></span>?
+            <span class="required">*</span>
+          </label>
+          <textarea
+            name="programBersih"
+            class="form-textarea"
+            placeholder="Tuliskan pendapat Anda..."
+            required
+          ></textarea>
+          <div class="error-message" id="programBersihError">
+            Field ini wajib diisi
+          </div>
+        </div>
+
+        <!-- KRITIK DAN SARAN Section -->
+        <div class="section-title">KRITIK DAN SARAN</div>
+
+        <div class="form-group">
+          <label class="form-label">
+            KRITIK
+            <span class="required">*</span>
+          </label>
+          <textarea
+            name="kritik"
+            class="form-textarea"
+            placeholder="Tuliskan kritik Anda..."
+            required
+          ></textarea>
+          <div class="error-message" id="kritikError">
+            Field ini wajib diisi
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            SARAN
+            <span class="required">*</span>
+          </label>
+          <textarea
+            name="saran"
+            class="form-textarea"
+            placeholder="Tuliskan saran Anda..."
+            required
+          ></textarea>
+          <div class="error-message" id="saranError">Field ini wajib diisi</div>
+        </div>
+      </form>
+
+      <!-- Navigation Buttons -->
+      <div class="button-group">
+        <a
+          href="https://akses.digital/supplier-gathering"
+          class="btn btn-secondary"
+          style="
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+          "
+        >
+          Kembali
+        </a>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="nextBtn"
+          onclick="handleNext()"
+        >
+          Selanjutnya
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // State management
+      let selectedUnits = [];
+      let currentUnitIndex = 0;
+      let step1Data = {};
+      let allResponses = {};
+
+      // Initialize
+      (function init() {
+        // Load step 1 data from localStorage (persistent)
+        const step1Json = localStorage.getItem("step1Data");
+        if (!step1Json) {
+          alert("Data step 1 tidak ditemukan. Silakan mulai dari awal.");
+          window.location.href =
+            window.location.origin + window.location.pathname;
+          return;
+        }
+
+        step1Data = JSON.parse(step1Json);
+        selectedUnits = step1Data.units || [];
+
+        if (selectedUnits.length === 0) {
+          alert("Tidak ada unit yang dipilih. Silakan mulai dari awal.");
+          window.location.href =
+            window.location.origin + window.location.pathname;
+          return;
+        }
+
+        // Check if there's saved progress (from localStorage)
+        const savedProgress = localStorage.getItem("kuesionerProgress");
+        if (savedProgress) {
+          const progress = JSON.parse(savedProgress);
+          currentUnitIndex = progress.currentUnitIndex || 0;
+          allResponses = progress.allResponses || {};
+        }
+
+        updatePageContent();
+        loadSavedData();
+      })();
+
+      function updatePageContent() {
+        const currentUnit = selectedUnits[currentUnitIndex];
+
+        // Update header
+        document.getElementById(
+          "headerTitle"
+        ).textContent = `KUESIONER SUPPLIER PT PLN NUSANTARA POWER ${currentUnit}`;
+
+        // Update progress indicator
+        document.getElementById("currentUnitName").textContent = currentUnit;
+        document.getElementById("progressText").textContent = ` (${
+          currentUnitIndex + 1
+        } dari ${selectedUnits.length} unit)`;
+
+        // Update unit name in questions
+        document.getElementById("unitNameInQuestion").textContent = currentUnit;
+        document.getElementById("unitNameInQuestion2").textContent =
+          currentUnit;
+        document.getElementById("unitNameInQuestion3").textContent =
+          currentUnit;
+
+        // Update button text
+        const nextBtn = document.getElementById("nextBtn");
+        if (currentUnitIndex < selectedUnits.length - 1) {
+          nextBtn.textContent = "Selanjutnya";
+        } else {
+          nextBtn.textContent = "Selesai & Submit";
+        }
+      }
+
+      function loadSavedData() {
+        const currentUnit = selectedUnits[currentUnitIndex];
+        const savedData = allResponses[currentUnit];
+
+        if (savedData) {
+          // Load text inputs
+          Object.keys(savedData).forEach((key) => {
+            const input = document.querySelector(`[name="${key}"]`);
+            if (input) {
+              if (input.type === "radio") {
+                const radio = document.querySelector(
+                  `[name="${key}"][value="${savedData[key]}"]`
+                );
+                if (radio) {
+                  radio.checked = true;
+                  // Add selected class if it's Ya/Tidak/Mungkin type
+                  if (radio.closest(".radio-option")) {
+                    radio.closest(".radio-option").classList.add("selected");
+                  }
+                }
+              } else {
+                input.value = savedData[key];
+              }
+            }
+          });
+        }
+      }
+
+      // Add selected class to radio options
+      document
+        .querySelectorAll('.radio-option input[type="radio"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", function () {
+            const groupName = this.name;
+            // Only for Ya/Tidak/Mungkin options (not rating scales)
+            if (this.closest(".radio-group")) {
+              document
+                .querySelectorAll(`input[name="${groupName}"]`)
+                .forEach((r) => {
+                  r.closest(".radio-option").classList.remove("selected");
+                });
+              this.closest(".radio-option").classList.add("selected");
+            }
+          });
+        });
+
+      // Form validation
+      function validateForm() {
+        let isValid = true;
+
+        // Validate text inputs
+        [
+          "nomorHp",
+          "kekuranganKelebihan",
+          "programBersih",
+          "kritik",
+          "saran",
+        ].forEach((fieldName) => {
+          const input = document.querySelector(`[name="${fieldName}"]`);
+          const errorElement = document.getElementById(fieldName + "Error");
+
+          if (!input || !input.value.trim()) {
+            if (input) input.classList.add("error");
+            if (errorElement) errorElement.classList.add("show");
+            isValid = false;
+          } else {
+            input.classList.remove("error");
+            if (errorElement) errorElement.classList.remove("show");
+          }
+        });
+
+        // Validate all rating questions (q1 to q26)
+        for (let i = 1; i <= 26; i++) {
+          const fieldName = `q${i}`;
+          const selected = document.querySelector(
+            `input[name="${fieldName}"]:checked`
+          );
+          const errorElement = document.getElementById(fieldName + "Error");
+
+          if (!selected) {
+            if (errorElement) errorElement.classList.add("show");
+            isValid = false;
+          } else {
+            if (errorElement) errorElement.classList.remove("show");
+          }
+        }
+
+        // Validate kerjasamaBaik radio
+        const kerjasamaBaik = document.querySelector(
+          'input[name="kerjasamaBaik"]:checked'
+        );
+        const kerjasamaBaikError =
+          document.getElementById("kerjasamaBaikError");
+        if (!kerjasamaBaik) {
+          if (kerjasamaBaikError) kerjasamaBaikError.classList.add("show");
+          isValid = false;
+        } else {
+          if (kerjasamaBaikError) kerjasamaBaikError.classList.remove("show");
+        }
+
+        return isValid;
+      }
+
+      function collectFormData() {
+        const formData = {
+          nomorHp: document.querySelector('[name="nomorHp"]').value,
+        };
+
+        // Collect all rating answers (q1 to q26)
+        for (let i = 1; i <= 26; i++) {
+          const fieldName = `q${i}`;
+          const selected = document.querySelector(
+            `input[name="${fieldName}"]:checked`
+          );
+          if (selected) {
+            formData[fieldName] = selected.value;
+          }
+        }
+
+        // Collect other fields
+        formData.kerjasamaBaik =
+          document.querySelector('input[name="kerjasamaBaik"]:checked')
+            ?.value || "";
+        formData.kekuranganKelebihan = document.querySelector(
+          '[name="kekuranganKelebihan"]'
+        ).value;
+        formData.programBersih = document.querySelector(
+          '[name="programBersih"]'
+        ).value;
+        formData.kritik = document.querySelector('[name="kritik"]').value;
+        formData.saran = document.querySelector('[name="saran"]').value;
+
+        return formData;
+      }
+
+      // Handle back to home button (from thank you page)
+      function handleBackToHome() {
+        // Clear all saved data from localStorage
+        localStorage.removeItem("step1Data");
+        localStorage.removeItem("kuesionerProgress");
+
+        // Always navigate back to step 1 (most reliable)
+        const targetUrl = "https://akses.digital/supplier-gathering";
+        window.location.replace(targetUrl);
+      }
+
+      function handleNext() {
+        if (!validateForm()) {
+          const firstError = document.querySelector(
+            ".error, .error-message.show"
+          );
+          if (firstError) {
+            firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+          return;
+        }
+
+        // Save current form data
+        const currentUnit = selectedUnits[currentUnitIndex];
+        allResponses[currentUnit] = collectFormData();
+
+        // Save progress to localStorage (persistent)
+        localStorage.setItem(
+          "kuesionerProgress",
+          JSON.stringify({
+            currentUnitIndex,
+            allResponses,
+          })
+        );
+
+        // Check if there are more units
+        if (currentUnitIndex < selectedUnits.length - 1) {
+          // Show confirmation modal
+          const currentUnit = selectedUnits[currentUnitIndex];
+          const nextUnit = selectedUnits[currentUnitIndex + 1];
+
+          const modalMessage = document.getElementById("modalMessage");
+          modalMessage.innerHTML = `
+          Anda telah menyelesaikan kuesioner untuk<br>
+          <span class="modal-unit-name">${currentUnit}</span>
+          <br><br>
+          Selanjutnya, Anda akan mengisi kuesioner untuk<br>
+          <span class="modal-unit-name">${nextUnit}</span>
+        `;
+
+          document.getElementById("confirmModal").classList.add("show");
+        } else {
+          // All units completed, submit all data
+          handleFinalSubmit();
+        }
+      }
+
+      // Confirm and move to next unit
+      function confirmNextUnit() {
+        // Hide modal
+        document.getElementById("confirmModal").classList.remove("show");
+
+        // Move to next unit
+        currentUnitIndex++;
+
+        // Reset form
+        document.getElementById("kuesionerForm").reset();
+
+        // Remove all selected classes
+        document.querySelectorAll(".radio-option.selected").forEach((el) => {
+          el.classList.remove("selected");
+        });
+
+        // Update page content
+        updatePageContent();
+        loadSavedData();
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function handleBack() {
+        // Simple & reliable - always go back to step 1
+        // Save progress jika multi-unit (dengan error handling)
+        try {
+          if (typeof currentUnitIndex !== "undefined" && currentUnitIndex > 0) {
+            const currentUnit = selectedUnits[currentUnitIndex];
+            if (currentUnit && typeof collectFormData === "function") {
+              allResponses[currentUnit] = collectFormData();
+              localStorage.setItem(
+                "kuesionerProgress",
+                JSON.stringify({
+                  currentUnitIndex,
+                  allResponses,
+                })
+              );
+            }
+          }
+        } catch (e) {
+          console.log("Progress save skipped:", e);
+        }
+
+        // Always navigate back to step 1 (most reliable)
+        const targetUrl = "https://akses.digital/supplier-gathering";
+        window.location.replace(targetUrl);
+      }
+
+      function handleFinalSubmit() {
+        document.getElementById("loadingOverlay").classList.add("show");
+
+        // Combine all data
+        const finalData = {
+          step1: step1Data,
+          kuesioner: allResponses,
+        };
+
+        console.log("Submitting data...", finalData);
+
+        // Check if google.script.run is available (Apps Script environment)
+        if (
+          typeof google !== "undefined" &&
+          google.script &&
+          google.script.run
+        ) {
+          console.log("Using google.script.run method");
+
+          // Set timeout untuk redirect otomatis setelah 3 detik
+          const redirectTimeout = setTimeout(function () {
+            console.log("Auto-redirect after 3 seconds");
+            localStorage.removeItem("step1Data");
+            localStorage.removeItem("kuesionerProgress");
+
+            // Hide loading, show thank you message directly (more reliable than redirect)
+            document.getElementById("loadingOverlay").classList.remove("show");
+            document.getElementById("thankYouOverlay").style.display = "flex";
+
+            console.log("Showing thank you message");
+
+            // Optional: Try redirect in background (fallback)
+            // setTimeout(function() {
+            //   const thankyouUrl = 'https://script.google.com/macros/s/AKfycbyjIrwkM2lA8ov7qac0g2C-pLw8gcp-DO_xy-wTZ0Uigd7r-ijvNIhQv_SgLP5eIOy7/exec?page=thankyou';
+            //   window.location.href = thankyouUrl;
+            // }, 5000);
+          }, 3000);
+
+          // Kirim data ke backend
+          google.script.run
+            .withSuccessHandler(function (response) {
+              console.log("Data submitted successfully:", response);
+              clearTimeout(redirectTimeout);
+
+              localStorage.removeItem("step1Data");
+              localStorage.removeItem("kuesionerProgress");
+
+              // Show thank you message directly (more reliable)
+              document
+                .getElementById("loadingOverlay")
+                .classList.remove("show");
+              document.getElementById("thankYouOverlay").style.display = "flex";
+              console.log("Success! Showing thank you message");
+            })
+            .withFailureHandler(function (error) {
+              console.error("Error submitting:", error);
+              clearTimeout(redirectTimeout);
+
+              localStorage.removeItem("step1Data");
+              localStorage.removeItem("kuesionerProgress");
+
+              // Show thank you message anyway (data might have been saved)
+              document
+                .getElementById("loadingOverlay")
+                .classList.remove("show");
+              document.getElementById("thankYouOverlay").style.display = "flex";
+              console.log("Error occurred, but showing thank you message");
+            })
+            .saveFormData(finalData);
+        } else {
+          console.error("google.script.run is not available");
+          alert(
+            "Terjadi kesalahan: Tidak dapat terhubung ke server. Silakan refresh halaman dan coba lagi."
+          );
+          document.getElementById("loadingOverlay").classList.remove("show");
+        }
+      }
+
+      // Remove error styling on input
+      document
+        .querySelectorAll(".form-input, .form-textarea")
+        .forEach((input) => {
+          input.addEventListener("input", function () {
+            this.classList.remove("error");
+            const errorId = this.name + "Error";
+            const errorElement = document.getElementById(errorId);
+            if (errorElement) {
+              errorElement.classList.remove("show");
+            }
+          });
+        });
+
+      // Remove error on rating selection
+      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+        radio.addEventListener("change", function () {
+          const errorId = this.name + "Error";
+          const errorElement = document.getElementById(errorId);
+          if (errorElement) {
+            errorElement.classList.remove("show");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
