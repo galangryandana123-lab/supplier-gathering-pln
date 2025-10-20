@@ -907,6 +907,97 @@ function setupSheets() {
   Logger.log("✅ Setup sheets selesai!");
 }
 
+/**
+ * Reorder sheets - move Email Queue to before Buku Tamu
+ * Urutan akhir:
+ * 1. Data Kehadiran
+ * 2. Kuesioner UP Paiton
+ * 3. Kuesioner UP Brantas
+ * 4. Kuesioner UP Pacitan
+ * 5. Rekap Kehadiran
+ * 6. Email Queue
+ * 7. Buku Tamu
+ * 
+ * JALANKAN MANUAL 1 KALI untuk mengatur ulang urutan sheet
+ */
+function reorderSheets() {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    
+    // Get all sheets
+    const kehadiranSheet = ss.getSheetByName(SHEET_NAMES.KEHADIRAN);
+    const paitonSheet = ss.getSheetByName(SHEET_NAMES.PAITON);
+    const brantasSheet = ss.getSheetByName(SHEET_NAMES.BRANTAS);
+    const pacitanSheet = ss.getSheetByName(SHEET_NAMES.PACITAN);
+    const rekapSheet = ss.getSheetByName(SHEET_NAMES.REKAP);
+    const emailQueueSheet = ss.getSheetByName(SHEET_NAMES.EMAIL_QUEUE);
+    const bukuTamuSheet = ss.getSheetByName(SHEET_NAMES.BUKU_TAMU);
+    
+    if (!emailQueueSheet || !bukuTamuSheet) {
+      Logger.log("⚠️ Sheet Email Queue atau Buku Tamu tidak ditemukan");
+      return;
+    }
+    
+    // Set desired order (1-based index)
+    let position = 1;
+    
+    if (kehadiranSheet) {
+      ss.setActiveSheet(kehadiranSheet);
+      ss.moveActiveSheet(position++);
+      Logger.log("✅ Moved: Data Kehadiran to position " + (position - 1));
+    }
+    
+    if (paitonSheet) {
+      ss.setActiveSheet(paitonSheet);
+      ss.moveActiveSheet(position++);
+      Logger.log("✅ Moved: Kuesioner UP Paiton to position " + (position - 1));
+    }
+    
+    if (brantasSheet) {
+      ss.setActiveSheet(brantasSheet);
+      ss.moveActiveSheet(position++);
+      Logger.log("✅ Moved: Kuesioner UP Brantas to position " + (position - 1));
+    }
+    
+    if (pacitanSheet) {
+      ss.setActiveSheet(pacitanSheet);
+      ss.moveActiveSheet(position++);
+      Logger.log("✅ Moved: Kuesioner UP Pacitan to position " + (position - 1));
+    }
+    
+    if (rekapSheet) {
+      ss.setActiveSheet(rekapSheet);
+      ss.moveActiveSheet(position++);
+      Logger.log("✅ Moved: Rekap Kehadiran to position " + (position - 1));
+    }
+    
+    // Move Email Queue before Buku Tamu
+    ss.setActiveSheet(emailQueueSheet);
+    ss.moveActiveSheet(position++);
+    Logger.log("✅ Moved: Email Queue to position " + (position - 1));
+    
+    if (bukuTamuSheet) {
+      ss.setActiveSheet(bukuTamuSheet);
+      ss.moveActiveSheet(position++);
+      Logger.log("✅ Moved: Buku Tamu to position " + (position - 1));
+    }
+    
+    Logger.log("\n🎉 Sheet reordering complete!");
+    Logger.log("Final order:");
+    Logger.log("1. Data Kehadiran");
+    Logger.log("2. Kuesioner UP Paiton");
+    Logger.log("3. Kuesioner UP Brantas");
+    Logger.log("4. Kuesioner UP Pacitan");
+    Logger.log("5. Rekap Kehadiran");
+    Logger.log("6. Email Queue");
+    Logger.log("7. Buku Tamu");
+    
+  } catch (error) {
+    Logger.log("❌ Error reorderSheets: " + error.toString());
+    throw error;
+  }
+}
+
 // ============================================================
 // QR CODE & EMAIL AUTOMATION FUNCTIONS
 // ============================================================
