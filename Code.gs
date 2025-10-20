@@ -1224,7 +1224,7 @@ function sendQRCodeEmail(supplierData) {
           
           <div class="qr-container">
             <h3>QR Code Kehadiran Anda</h3>
-            <img src="data:image/png;base64,${qrCodeBase64}" alt="QR Code" class="qr-code" />
+            <img src="cid:qrcode" alt="QR Code" class="qr-code" />
             <p style="color: #718096; font-size: 12px; margin-top: 15px;">
               Simpan atau screenshot QR code ini
             </p>
@@ -1308,7 +1308,7 @@ Tim PT PLN Nusantara Power
         {
           content: qrCodeBase64,
           filename: "qrcode_kehadiran.png",
-          // Attach as regular file (tidak pakai contentId karena sudah embed langsung via data URI)
+          content_id: "qrcode", // Content-ID untuk inline display (reference: cid:qrcode)
         },
       ],
     };
