@@ -1208,15 +1208,15 @@
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Navigate to step 2 using relative URL (works in iframe proxy)
+          // Navigate to step 2 using hardcoded URL
           setTimeout(() => {
             console.log("=== NAVIGATION DEBUG ===");
             console.log("Current URL:", window.location.href);
             console.log("localStorage step1Data:", localStorage.getItem('step1Data'));
-            console.log("Navigating to: ?page=step2");
+            console.log("Navigating to step2...");
             
-            // Use relative URL to stay within iframe/proxy context
-            window.location.href = '?page=step2';
+            // Hardcoded URL for iframe proxy compatibility
+            window.location.href = 'https://urlku.web.id/sgpln2025?page=step2';
           }, 500);
         } else {
           const firstError = document.querySelector(
