@@ -1208,20 +1208,15 @@
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Navigate to step 2 with query parameter
+          // Navigate to step 2 using relative URL (works in iframe proxy)
           setTimeout(() => {
-            const currentUrl = window.location.href;
-            const baseUrl = currentUrl.split('?')[0].split('#')[0]; // Clean base URL
-            const step2Url = baseUrl + '?page=step2';
-            
             console.log("=== NAVIGATION DEBUG ===");
-            console.log("Current URL:", currentUrl);
-            console.log("Base URL:", baseUrl);
-            console.log("Step2 URL:", step2Url);
+            console.log("Current URL:", window.location.href);
             console.log("localStorage step1Data:", localStorage.getItem('step1Data'));
+            console.log("Navigating to: ?page=step2");
             
-            // Use href instead of replace to allow back navigation
-            window.location.href = step2Url;
+            // Use relative URL to stay within iframe/proxy context
+            window.location.href = '?page=step2';
           }, 500);
         } else {
           const firstError = document.querySelector(

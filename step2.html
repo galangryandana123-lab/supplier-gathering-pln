@@ -793,8 +793,7 @@
         </p>
 
         <a
-          href="#"
-          onclick="(function(){ const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, ''); window.location.href = baseUrl; })()"
+          href="./"
           class="btn btn-primary"
           style="
             width: 100%;
@@ -1845,8 +1844,7 @@
       <!-- Navigation Buttons -->
       <div class="button-group">
         <a
-          href="#"
-          onclick="(function(){ const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, ''); window.location.href = baseUrl; })()"
+          href="./"
           class="btn btn-secondary"
           style="
             text-decoration: none;
@@ -1880,8 +1878,7 @@
         const step1Json = localStorage.getItem("step1Data");
         if (!step1Json) {
           alert("Data step 1 tidak ditemukan. Silakan mulai dari awal.");
-          const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, '');
-          window.location.href = baseUrl;
+          window.location.href = './';
           return;
         }
 
@@ -1890,8 +1887,7 @@
 
         if (selectedUnits.length === 0) {
           alert("Tidak ada unit yang dipilih. Silakan mulai dari awal.");
-          const baseUrl = window.location.origin + window.location.pathname.replace(/[^\/]+$/, '');
-          window.location.href = baseUrl;
+          window.location.href = './';
           return;
         }
 
