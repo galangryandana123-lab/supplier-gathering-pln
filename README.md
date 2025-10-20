@@ -107,6 +107,21 @@ removeTriggers()  // Hapus semua trigger
 setupTriggers()   // Buat ulang
 ```
 
+### Reorder Sheet Position:
+Jika ingin mengatur ulang urutan sheet (Email Queue sebelum Buku Tamu):
+```javascript
+reorderSheets()  // Jalankan 1x manual
+```
+
+Urutan sheet setelah reorder:
+1. Data Kehadiran
+2. Kuesioner UP Paiton
+3. Kuesioner UP Brantas
+4. Kuesioner UP Pacitan
+5. Rekap Kehadiran
+6. **Email Queue**
+7. Buku Tamu
+
 ### Cek Email Queue Status:
 ```javascript
 // Di Apps Script Editor → View → Logs
@@ -139,9 +154,9 @@ setupTriggers()   // Buat ulang
 | Kuesioner UP Paiton | Data kuesioner unit Paiton |
 | Kuesioner UP Brantas | Data kuesioner unit Brantas |
 | Kuesioner UP Pacitan | Data kuesioner unit Pacitan |
-| Rekap Kehadiran | Auto-generated summary (updated tiap 3 menit) |
-| Buku Tamu | Data scan QR Code kehadiran |
+| Rekap Kehadiran | Auto-generated summary (updated tiap 5 menit) |
 | **Email Queue** | Antrian email (status: pending/sent/failed) |
+| Buku Tamu | Data scan QR Code kehadiran |
 
 ---
 
