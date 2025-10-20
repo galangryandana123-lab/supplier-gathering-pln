@@ -75,6 +75,11 @@ function doGet(e) {
     htmlOutput = HtmlService.createHtmlOutputFromFile("scanner").setTitle(
       "Scanner QR Code - Buku Tamu Supplier Gathering 2025"
     );
+  } else if (page === "test" || page === "test-routing") {
+    Logger.log("Loading test-routing.html");
+    htmlOutput = HtmlService.createHtmlOutputFromFile("test-routing").setTitle(
+      "Test Routing Debug"
+    );
   } else {
     Logger.log("Loading step1.html (default)");
     htmlOutput = HtmlService.createHtmlOutputFromFile("step1").setTitle(
