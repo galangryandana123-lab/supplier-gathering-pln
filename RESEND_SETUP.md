@@ -119,38 +119,27 @@
 ### 4. Konfigurasi Code.gs (1 menit)
 
 1. Buka file `Code.gs`
-2. Cari baris 11-12 (section RESEND API CONFIGURATION)
-3. Ganti nilai:
+2. Cari **baris 13** (RESEND_API_KEY)
+3. Ganti **HANYA API KEY**:
 
 ```javascript
-// RESEND API CONFIGURATION
-const RESEND_API_KEY = "re_your_actual_api_key_here"; // Paste API key dari step 2
-const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@yourdomain.com>"; // Ganti domain
+const RESEND_API_KEY = "re_your_actual_api_key_here"; // ⬅️ Paste API key dari step 2
 ```
 
-**Contoh Konfigurasi:**
-
-**Dengan Domain Terverifikasi (PRODUCTION):**
+**Contoh:**
 ```javascript
-const RESEND_API_KEY = "re_9xWqP7mN5vK2jR8hT3fY6nL4sD1aB";
-const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@plnsurabaya.com>";
+// YANG PERLU DIUBAH (baris 13):
+const RESEND_API_KEY = "re_9xWqP7mN5vK2jR8hT3fY6nL4sD1aB"; // ⬅️ Paste API key Anda
+
+// SUDAH OTOMATIS (JANGAN DIUBAH - baris 18):
+const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@galangproject.my.id>";
 ```
 
-**Tanpa Domain (TESTING ONLY):**
-```javascript
-const RESEND_API_KEY = "re_9xWqP7mN5vK2jR8hT3fY6nL4sD1aB";
-const RESEND_FROM_EMAIL = "onboarding@resend.dev";
-```
+✅ **Domain `galangproject.my.id` sudah verified dan dikonfigurasi otomatis!**
 
 ⚠️ **PENTING**: 
 - Jangan commit API key ke GitHub!
 - Jika menggunakan Git, simpan API key di environment variable atau file terpisah yang di-ignore
-
-⚠️ **BATASAN `onboarding@resend.dev`**:
-- **Hanya bisa mengirim email ke email yang terdaftar di akun Resend Anda sendiri**
-- Contoh: Jika akun Resend Anda `sgplnnusantarapower@gmail.com`, maka email hanya bisa dikirim ke `sgplnnusantarapower@gmail.com`
-- Untuk mengirim ke recipient lain (supplier), **WAJIB verifikasi domain sendiri**
-- Testing dengan `onboarding@resend.dev` hanya untuk memastikan integrasi API berfungsi
 
 ---
 

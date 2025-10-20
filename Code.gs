@@ -6,14 +6,17 @@
 // KONFIGURASI - Ganti dengan Spreadsheet ID Anda
 const SPREADSHEET_ID = "175u9HZZOxpGCHS8GwurWbivY2i6gZn-DRgroehkx9MY";
 
-// RESEND API CONFIGURATION
+// ============================================================
+// KONFIGURASI RESEND API - UBAH HANYA API KEY DI BAWAH INI!
+// ============================================================
 // Dapatkan API key dari: https://resend.com/api-keys
-const RESEND_API_KEY = "re_xxxxxxxxxxxxxxxxxxxxxxxxxx"; // GANTI dengan API key Anda dari Resend
+const RESEND_API_KEY = "re_xxxxxxxxxxxxxxxxxxxxxxxxxx"; // ⬅️ GANTI DENGAN API KEY ANDA
 
-// FROM EMAIL OPTIONS:
-// 1. TESTING (tanpa domain verification): "onboarding@resend.dev"
-// 2. PRODUCTION (dengan domain verified): "Nama Pengirim <noreply@yourdomain.com>"
-const RESEND_FROM_EMAIL = "onboarding@resend.dev"; // Default: testing mode
+// ============================================================
+// KONFIGURASI LAINNYA (JANGAN DIUBAH KECUALI PERLU)
+// ============================================================
+const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@galangproject.my.id>";
+// Domain galangproject.my.id sudah verified di Resend
 
 // Nama-nama sheet
 const SHEET_NAMES = {

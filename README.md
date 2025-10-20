@@ -20,7 +20,17 @@ Web-based questionnaire system untuk Supplier Gathering 2025 PT PLN Nusantara Po
 5. Copy Web App URL
 
 ### 2. **PENTING: Setup Resend API**
-Lihat section "Setup Resend API" di bawah untuk mendapatkan API key dan konfigurasi Code.gs.
+
+**Quick Setup (3 menit):**
+1. Daftar di https://resend.com (gratis)
+2. Dapatkan API key: https://resend.com/api-keys
+3. Buka `Code.gs` baris 13, ganti:
+   ```javascript
+   const RESEND_API_KEY = "re_your_api_key_here"; // ⬅️ Paste API key di sini
+   ```
+4. Selesai! Domain `galangproject.my.id` sudah dikonfigurasi otomatis.
+
+**Detail lengkap:** Lihat section "Setup Resend API" di bawah.
 
 ### 3. **PENTING: Setup Triggers (Jalankan 1x saja)**
 Setelah deploy dan konfigurasi Resend, jalankan fungsi ini **MANUAL** dari Apps Script Editor:
@@ -90,22 +100,21 @@ Fungsi ini akan membuat 2 time-driven triggers:
    - Tidak recommended untuk production
 
 4. **Konfigurasi di Code.gs**
-   - Buka file `Code.gs` baris 11-12
-   - Ganti nilai berikut:
+   - Buka file `Code.gs` **baris 13**
+   - Ganti **HANYA API KEY**:
    ```javascript
-   const RESEND_API_KEY = "re_xxxxxxxxxxxx"; // API key dari step 2
-   const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@yourdomain.com>"; // Email pengirim
+   const RESEND_API_KEY = "re_xxxxxxxxxxxx"; // ⬅️ Paste API key dari step 2
    ```
+   - ✅ **FROM EMAIL sudah dikonfigurasi otomatis:** `noreply@galangproject.my.id`
+   - ✅ **Domain sudah verified** - langsung siap pakai!
 
 #### Contoh Konfigurasi:
 ```javascript
-// Dengan domain terverifikasi (RECOMMENDED)
-const RESEND_API_KEY = "re_AbCdEfGh123456789";
-const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@plnsurabaya.com>";
+// Yang perlu diubah (baris 13):
+const RESEND_API_KEY = "re_AbCdEfGh123456789"; // ⬅️ Paste API key Anda
 
-// Atau tanpa domain custom (TESTING ONLY)
-const RESEND_API_KEY = "re_AbCdEfGh123456789";
-const RESEND_FROM_EMAIL = "onboarding@resend.dev";
+// Sudah otomatis (JANGAN DIUBAH):
+const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@galangproject.my.id>";
 ```
 
 ---
