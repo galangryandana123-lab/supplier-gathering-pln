@@ -208,6 +208,10 @@ function saveKehadiranData(ss, step1Data) {
     headerRange.setFontWeight("bold");
     headerRange.setBackground("#667eea");
     headerRange.setFontColor("#ffffff");
+    
+    // Set timestamp column format to show date and time
+    sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
+    sheet.setColumnWidth(1, 150);
   }
 
   // Prepare data row
@@ -308,6 +312,9 @@ function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
     sheet.setColumnWidth(35, 300);
     sheet.setColumnWidth(36, 300);
     sheet.setColumnWidth(37, 300);
+    
+    // Set timestamp column format to show date and time
+    sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
   }
 
   // Prepare data row
@@ -524,6 +531,10 @@ function addEmailToQueue(supplierData) {
       headerRange.setFontWeight("bold");
       headerRange.setBackground("#1e3c72");
       headerRange.setFontColor("#ffffff");
+      
+      // Set timestamp column format to show date and time
+      queueSheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
+      queueSheet.getRange("H:H").setNumberFormat("dd/mm/yyyy hh:mm:ss"); // Last Attempt
     }
 
     // Tambahkan ke antrian
@@ -1220,6 +1231,9 @@ function saveAttendanceRecord(qrData) {
       sheet.setColumnWidth(3, 250);
       sheet.setColumnWidth(4, 200);
       sheet.setColumnWidth(5, 100);
+      
+      // Set timestamp column format to show date and time
+      sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
     }
 
     // Cek duplicate - apakah supplier sudah scan sebelumnya
