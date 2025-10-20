@@ -1244,6 +1244,9 @@
       // AUTO-RESTORE DATA FROM LOCALSTORAGE (When user clicks "Kembali" from Step 2)
       // ============================================================
       (function restoreSavedData() {
+        console.log("📝 STEP 1 PAGE LOADED!");
+        console.log("Current URL:", window.location.href);
+        
         try {
           // Check if there's saved data in localStorage
           const savedDataJson = localStorage.getItem("step1Data");

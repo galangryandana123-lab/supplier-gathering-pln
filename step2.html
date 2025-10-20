@@ -1874,6 +1874,8 @@
 
       // Initialize
       (function init() {
+        console.log("🚀 STEP 2 PAGE LOADED!");
+        console.log("Current URL:", window.location.href);
         // Load step 1 data from localStorage (persistent)
         const step1Json = localStorage.getItem("step1Data");
         if (!step1Json) {
