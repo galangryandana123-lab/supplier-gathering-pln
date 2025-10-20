@@ -1215,8 +1215,12 @@
             console.log("localStorage step1Data:", localStorage.getItem('step1Data'));
             console.log("Navigating to step2...");
             
-            // Hardcoded URL for iframe proxy compatibility
-            window.location.href = 'https://urlku.web.id/sgpln2025?page=step2';
+            // Use top window to break out of iframe
+            if (window.top) {
+              window.top.location.href = 'https://urlku.web.id/sgpln2025?page=step2';
+            } else {
+              window.location.href = 'https://urlku.web.id/sgpln2025?page=step2';
+            }
           }, 500);
         } else {
           const firstError = document.querySelector(
