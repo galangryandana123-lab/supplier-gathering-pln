@@ -6,6 +6,15 @@
 // KONFIGURASI - Ganti dengan Spreadsheet ID Anda
 const SPREADSHEET_ID = "175u9HZZOxpGCHS8GwurWbivY2i6gZn-DRgroehkx9MY";
 
+// RESEND API CONFIGURATION
+// Dapatkan API key dari: https://resend.com/api-keys
+const RESEND_API_KEY = "re_xxxxxxxxxxxxxxxxxxxxxxxxxx"; // GANTI dengan API key Anda dari Resend
+
+// FROM EMAIL OPTIONS:
+// 1. TESTING (tanpa domain verification): "onboarding@resend.dev"
+// 2. PRODUCTION (dengan domain verified): "Nama Pengirim <noreply@yourdomain.com>"
+const RESEND_FROM_EMAIL = "onboarding@resend.dev"; // Default: testing mode
+
 // Nama-nama sheet
 const SHEET_NAMES = {
   KEHADIRAN: "Data Kehadiran",
@@ -211,7 +220,13 @@ function saveKehadiranData(ss, step1Data) {
     
     // Set timestamp column format to show date and time
     sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
-    sheet.setColumnWidth(1, 150);
+    sheet.setColumnWidth(1, 160); // Timestamp
+    sheet.setColumnWidth(2, 300); // Nama Perusahaan
+    sheet.setColumnWidth(3, 220); // Email
+    sheet.setColumnWidth(4, 200); // Nama Peserta
+    sheet.setColumnWidth(5, 150); // Jabatan
+    sheet.setColumnWidth(6, 200); // Unit Pembangkit
+    sheet.setColumnWidth(7, 150); // Konfirmasi Kehadiran
   }
 
   // Prepare data row
@@ -296,22 +311,24 @@ function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
     headerRange.setWrap(true);
 
     // Set column widths
-    sheet.setColumnWidth(1, 150);
-    sheet.setColumnWidth(2, 200);
-    sheet.setColumnWidth(3, 150);
-    sheet.setColumnWidth(4, 120);
-    sheet.setColumnWidth(5, 200);
-    sheet.setColumnWidth(6, 120);
+    sheet.setColumnWidth(1, 160); // Timestamp
+    sheet.setColumnWidth(2, 250); // Nama Perusahaan
+    sheet.setColumnWidth(3, 200); // Email
+    sheet.setColumnWidth(4, 180); // Nama Peserta
+    sheet.setColumnWidth(5, 150); // Jabatan
+    sheet.setColumnWidth(6, 130); // Nomor HP/WA
 
+    // Rating columns (q1-q26)
     for (let i = 7; i <= 32; i++) {
-      sheet.setColumnWidth(i, 80);
+      sheet.setColumnWidth(i, 110);
     }
 
-    sheet.setColumnWidth(33, 150);
-    sheet.setColumnWidth(34, 300);
-    sheet.setColumnWidth(35, 300);
-    sheet.setColumnWidth(36, 300);
-    sheet.setColumnWidth(37, 300);
+    // Text response columns
+    sheet.setColumnWidth(33, 200); // Hubungan kerjasama berjalan baik
+    sheet.setColumnWidth(34, 350); // Kekurangan dan Kelebihan
+    sheet.setColumnWidth(35, 350); // Penerapan PLN NP BERSIH
+    sheet.setColumnWidth(36, 350); // Kritik
+    sheet.setColumnWidth(37, 350); // Saran
     
     // Set timestamp column format to show date and time
     sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
@@ -535,6 +552,17 @@ function addEmailToQueue(supplierData) {
       // Set timestamp column format to show date and time
       queueSheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
       queueSheet.getRange("H:H").setNumberFormat("dd/mm/yyyy hh:mm:ss"); // Last Attempt
+      
+      // Set column widths
+      queueSheet.setColumnWidth(1, 160); // Timestamp
+      queueSheet.setColumnWidth(2, 220); // Email
+      queueSheet.setColumnWidth(3, 200); // Nama
+      queueSheet.setColumnWidth(4, 280); // Nama Perusahaan
+      queueSheet.setColumnWidth(5, 200); // Units
+      queueSheet.setColumnWidth(6, 100); // Status
+      queueSheet.setColumnWidth(7, 100); // Retry Count
+      queueSheet.setColumnWidth(8, 160); // Last Attempt
+      queueSheet.setColumnWidth(9, 300); // Error Message
     }
 
     // Tambahkan ke antrian
@@ -667,26 +695,26 @@ function setupTriggers() {
     }
   });
 
-  // Setup trigger untuk processEmailQueue (tiap 5 menit)
+  // Setup trigger untuk processEmailQueue (tiap 1 menit)
   ScriptApp.newTrigger("processEmailQueue")
     .timeBased()
-    .everyMinutes(5)
+    .everyMinutes(1)
     .create();
-  Logger.log("✅ Created trigger: processEmailQueue (every 5 minutes)");
+  Logger.log("✅ Created trigger: processEmailQueue (every 1 minute)");
 
-  // Setup trigger untuk generateRekapKehadiran (tiap 5 menit)
+  // Setup trigger untuk generateRekapKehadiran (tiap 1 menit)
   ScriptApp.newTrigger("generateRekapKehadiran")
     .timeBased()
-    .everyMinutes(5)
+    .everyMinutes(1)
     .create();
-  Logger.log("✅ Created trigger: generateRekapKehadiran (every 5 minutes)");
+  Logger.log("✅ Created trigger: generateRekapKehadiran (every 1 minute)");
 
   Logger.log(
     "\n🎉 All triggers setup complete!\n" +
-      "- Email queue: processed every 5 minutes (max 90 emails/run)\n" +
-      "- Rekap kehadiran: updated every 5 minutes\n" +
-      "- Estimated: 90 emails/5min = ~18 emails/min = 1080 emails/hour\n" +
-      "- Daily capacity: ~1000-1500 emails (under MailApp limit 100/day buffer)"
+      "- Email queue: processed every 1 minute (max 90 emails/run)\n" +
+      "- Rekap kehadiran: updated every 1 minute\n" +
+      "- Estimated: 90 emails/min = 5400 emails/hour\n" +
+      "- Daily capacity: ~5000-8000 emails (with Resend API)"
   );
 }
 
@@ -863,9 +891,9 @@ function generateRekapKehadiran() {
       .setHorizontalAlignment("center");
 
     // Column widths
-    rekapSheet.setColumnWidth(1, 250); // Diperlebar untuk text seperti "Jumlah vendor yang hadir:"
-    rekapSheet.setColumnWidth(2, 300);
-    rekapSheet.setColumnWidth(3, 120);
+    rekapSheet.setColumnWidth(1, 280); // Kolom 1: Label summary + No (perlu lebar untuk label)
+    rekapSheet.setColumnWidth(2, 350); // Kolom 2: Nilai + Nama Vendor (diperlebar untuk nama perusahaan panjang)
+    rekapSheet.setColumnWidth(3, 140); // Kolom 3: Jumlah Submit
 
     // Border tabel
     const totalRows = output.length - headerRowIndex + 1; // termasuk baris header
@@ -1026,10 +1054,9 @@ function generateQRCodeUrl(supplierData) {
 }
 
 /**
- * Generate QR Code sebagai inline attachment (Base64)
- * Alternatif method yang lebih reliable untuk semua email client
+ * Generate QR Code sebagai base64 string untuk Resend API
  */
-function generateQRCodeInline(supplierData) {
+function generateQRCodeBase64(supplierData) {
   try {
     // Data yang akan di-encode dalam QR Code (tanpa units)
     const qrData = JSON.stringify({
@@ -1047,24 +1074,31 @@ function generateQRCodeInline(supplierData) {
     // Download QR code as blob
     const response = UrlFetchApp.fetch(qrCodeUrl);
     const qrBlob = response.getBlob();
-    qrBlob.setName("qrcode_kehadiran.png");
+    
+    // Convert blob to base64 string untuk Resend API
+    const qrBase64 = Utilities.base64Encode(qrBlob.getBytes());
 
-    return qrBlob;
+    return qrBase64;
   } catch (error) {
-    Logger.log("Error generating inline QR code: " + error.toString());
+    Logger.log("Error generating QR code base64: " + error.toString());
     return null;
   }
 }
 
 /**
- * Kirim email dengan QR Code ke supplier
+ * Kirim email dengan QR Code ke supplier menggunakan Resend API
  */
 function sendQRCodeEmail(supplierData) {
   try {
-    // Generate QR Code sebagai inline image (blob)
-    const qrCodeBlob = generateQRCodeInline(supplierData);
+    // Validasi Resend API Key
+    if (!RESEND_API_KEY || RESEND_API_KEY === "re_xxxxxxxxxxxxxxxxxxxxxxxxxx") {
+      throw new Error("RESEND_API_KEY belum dikonfigurasi. Set di baris 9-10 Code.gs");
+    }
 
-    if (!qrCodeBlob) {
+    // Generate QR Code sebagai base64
+    const qrCodeBase64 = generateQRCodeBase64(supplierData);
+
+    if (!qrCodeBase64) {
       throw new Error("Gagal generate QR code");
     }
 
@@ -1187,7 +1221,7 @@ function sendQRCodeEmail(supplierData) {
           
           <div class="qr-container">
             <h3>QR Code Kehadiran Anda</h3>
-            <img src="cid:qrcode" alt="QR Code" class="qr-code" />
+            <img src="data:image/png;base64,${qrCodeBase64}" alt="QR Code" class="qr-code" />
             <p style="color: #718096; font-size: 12px; margin-top: 15px;">
               Simpan atau screenshot QR code ini
             </p>
@@ -1261,19 +1295,53 @@ Hormat kami,
 Tim PT PLN Nusantara Power
     `;
 
-    // Send email menggunakan MailApp dengan inline QR code image
-    MailApp.sendEmail({
-      to: supplierData.email,
+    // Send email menggunakan Resend API
+    const payload = {
+      from: RESEND_FROM_EMAIL,
+      to: [supplierData.email],
       subject: subject,
-      body: plainBody,
-      htmlBody: htmlBody,
-      name: "PT PLN Nusantara Power - Supplier Gathering 2025",
-      inlineImages: {
-        qrcode: qrCodeBlob, // Embed QR code sebagai inline image dengan Content-ID "qrcode"
-      },
-    });
+      html: htmlBody,
+      attachments: [
+        {
+          content: qrCodeBase64,
+          filename: "qrcode_kehadiran.png",
+          // Attach as regular file (tidak pakai contentId karena sudah embed langsung via data URI)
+        },
+      ],
+    };
 
-    Logger.log("✅ Email berhasil dikirim ke: " + supplierData.email);
+    const options = {
+      method: "post",
+      headers: {
+        Authorization: "Bearer " + RESEND_API_KEY,
+        "Content-Type": "application/json",
+      },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true,
+    };
+
+    const response = UrlFetchApp.fetch(
+      "https://api.resend.com/emails",
+      options
+    );
+    const responseCode = response.getResponseCode();
+    const responseBody = response.getContentText();
+
+    if (responseCode !== 200) {
+      const errorData = JSON.parse(responseBody);
+      throw new Error(
+        "Resend API error: " + (errorData.message || responseBody)
+      );
+    }
+
+    const result = JSON.parse(responseBody);
+    Logger.log(
+      "✅ Email berhasil dikirim ke: " +
+        supplierData.email +
+        " (ID: " +
+        result.id +
+        ")"
+    );
     return true;
   } catch (error) {
     Logger.log("❌ Error sendQRCodeEmail: " + error.toString());
@@ -1317,11 +1385,11 @@ function saveAttendanceRecord(qrData) {
       headerRange.setFontColor("#ffffff");
 
       // Set column widths
-      sheet.setColumnWidth(1, 180);
-      sheet.setColumnWidth(2, 200);
-      sheet.setColumnWidth(3, 250);
-      sheet.setColumnWidth(4, 200);
-      sheet.setColumnWidth(5, 100);
+      sheet.setColumnWidth(1, 160); // Timestamp Scan
+      sheet.setColumnWidth(2, 220); // Nama Peserta
+      sheet.setColumnWidth(3, 300); // Nama Perusahaan
+      sheet.setColumnWidth(4, 220); // Email
+      sheet.setColumnWidth(5, 110); // Status
       
       // Set timestamp column format to show date and time
       sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");

@@ -19,16 +19,19 @@ Web-based questionnaire system untuk Supplier Gathering 2025 PT PLN Nusantara Po
 4. Who has access: **Anyone**
 5. Copy Web App URL
 
-### 2. **PENTING: Setup Triggers (Jalankan 1x saja)**
-Setelah deploy, jalankan fungsi ini **MANUAL** dari Apps Script Editor:
+### 2. **PENTING: Setup Resend API**
+Lihat section "Setup Resend API" di bawah untuk mendapatkan API key dan konfigurasi Code.gs.
+
+### 3. **PENTING: Setup Triggers (Jalankan 1x saja)**
+Setelah deploy dan konfigurasi Resend, jalankan fungsi ini **MANUAL** dari Apps Script Editor:
 
 ```javascript
 setupTriggers()
 ```
 
 Fungsi ini akan membuat 2 time-driven triggers:
-- `processEmailQueue`: Jalan tiap **5 menit** (kirim email dari antrian)
-- `generateRekapKehadiran`: Jalan tiap **5 menit** (update rekap otomatis)
+- `processEmailQueue`: Jalan tiap **1 menit** (kirim email dari antrian via Resend API)
+- `generateRekapKehadiran`: Jalan tiap **1 menit** (update rekap otomatis)
 
 **Verifikasi triggers sudah jalan:**
 - Apps Script Editor → Triggers (⏰ icon di sidebar kiri)
@@ -56,19 +59,72 @@ Fungsi ini akan membuat 2 time-driven triggers:
 
 ## 📧 Email Queue System (Backup Method)
 
+### ⚙️ Setup Resend API (PENTING - Lakukan Sebelum Deploy!)
+
+**Resend** adalah email API service untuk mengirim transactional email tanpa batasan MailApp.
+
+#### Langkah Setup:
+
+1. **Daftar Resend** (GRATIS)
+   - Buka https://resend.com
+   - Sign up dengan email atau GitHub
+   - Free tier: **3,000 email/bulan** + **100 email/hari**
+
+2. **Dapatkan API Key**
+   - Setelah login → https://resend.com/api-keys
+   - Klik "Create API Key"
+   - Copy API key (format: `re_xxxxxxxxxxxx`)
+   - ⚠️ **Simpan baik-baik**, key hanya ditampilkan 1x!
+
+3. **Setup Domain (Opsional tapi Recommended)**
+   - Resend Dashboard → Domains → Add Domain
+   - Masukkan domain Anda (contoh: `yourdomain.com`)
+   - Tambahkan DNS records (SPF, DKIM, DMARC) ke domain provider
+   - Tunggu verifikasi (~5-10 menit)
+   - Setelah verified, gunakan format: `Nama Pengirim <noreply@yourdomain.com>`
+   
+   **Alternatif tanpa domain custom:**
+   - Gunakan domain Resend: `onboarding@resend.dev` (untuk testing)
+   - ⚠️ **Catatan**: Dengan `onboarding@resend.dev`, Resend hanya mengizinkan mengirim ke email yang terdaftar di akun Resend Anda
+   - Untuk kirim ke semua recipient, WAJIB verifikasi domain sendiri
+   - Tidak recommended untuk production
+
+4. **Konfigurasi di Code.gs**
+   - Buka file `Code.gs` baris 11-12
+   - Ganti nilai berikut:
+   ```javascript
+   const RESEND_API_KEY = "re_xxxxxxxxxxxx"; // API key dari step 2
+   const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@yourdomain.com>"; // Email pengirim
+   ```
+
+#### Contoh Konfigurasi:
+```javascript
+// Dengan domain terverifikasi (RECOMMENDED)
+const RESEND_API_KEY = "re_AbCdEfGh123456789";
+const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@plnsurabaya.com>";
+
+// Atau tanpa domain custom (TESTING ONLY)
+const RESEND_API_KEY = "re_AbCdEfGh123456789";
+const RESEND_FROM_EMAIL = "onboarding@resend.dev";
+```
+
+---
+
 ### Cara Kerja:
 1. **User submit form** → Email **TIDAK langsung terkirim** (instant response)
 2. **QR Code langsung ditampilkan di browser** (primary)
 3. Data email masuk ke **Sheet "Email Queue"** dengan status `pending` (backup)
-4. Trigger `processEmailQueue` jalan tiap **5 menit**:
+4. Trigger `processEmailQueue` jalan tiap **1 menit**:
    - Ambil max 90 email dengan status `pending`
-   - Kirim email + update status jadi `sent`
+   - Kirim via **Resend API** + update status jadi `sent`
    - Retry 3x jika gagal, lalu status jadi `failed`
 
 ### Rate Limiting:
-- **Max 90 email per run** (buffer 10 dari limit MailApp 100/hari)
+- **Max 90 email per run** (safety buffer)
 - **Delay 1 detik** antar email untuk menghindari spike
-- **Estimasi**: 90 email/5min = 18 email/menit = **~1080 email/jam**
+- **Estimasi**: 90 email/menit = **~5400 email/jam**
+- **Free tier limit**: 100 email/hari, 3000 email/bulan
+- ⚠️ **Testing dengan `onboarding@resend.dev`**: Hanya bisa kirim ke email akun Resend Anda sendiri
 
 ### Monitoring:
 Cek Sheet **"Email Queue"**:
@@ -88,7 +144,7 @@ processEmailQueue()
 
 ## 📊 Rekap Kehadiran Auto-Update
 
-- Trigger `generateRekapKehadiran` jalan tiap **5 menit**
+- Trigger `generateRekapKehadiran` jalan tiap **1 menit**
 - Sheet **"Rekap Kehadiran"** otomatis ter-update
 - **Tidak perlu manual refresh** lagi
 
@@ -140,9 +196,15 @@ Urutan sheet setelah reorder:
 - Atau manual run: `generateRekapKehadiran()`
 - Cek trigger `generateRekapKehadiran` aktif
 
-**Q: Limit MailApp 100/hari tercapai?**
-- Email queue akan pending sampai besok
-- Atau upgrade ke Google Workspace (1500/hari)
+**Q: Resend API limit tercapai?**
+- Free tier: 100 email/hari, 3000/bulan
+- Email queue akan pending sampai reset (daily/monthly)
+- Upgrade Resend plan jika perlu kapasitas lebih besar
+
+**Q: Error "RESEND_API_KEY belum dikonfigurasi"?**
+- Pastikan sudah mengisi `RESEND_API_KEY` di Code.gs baris 11
+- Pastikan API key valid (cek di https://resend.com/api-keys)
+- Deploy ulang setelah update konfigurasi
 
 ---
 
@@ -154,7 +216,7 @@ Urutan sheet setelah reorder:
 | Kuesioner UP Paiton | Data kuesioner unit Paiton |
 | Kuesioner UP Brantas | Data kuesioner unit Brantas |
 | Kuesioner UP Pacitan | Data kuesioner unit Pacitan |
-| Rekap Kehadiran | Auto-generated summary (updated tiap 5 menit) |
+|| Rekap Kehadiran | Auto-generated summary (updated tiap 1 menit) |
 | **Email Queue** | Antrian email (status: pending/sent/failed) |
 | Buku Tamu | Data scan QR Code kehadiran |
 
@@ -176,7 +238,7 @@ Urutan sheet setelah reorder:
 
 ### Result:
 - **Submit response**: 2-3 detik (dari ~5-7 detik)
-- **Email capacity**: ~1000-1500/hari (dengan queue system)
+- **Email capacity**: ~5400 email/jam dengan Resend API (trigger 1 menit)
 - **Page load**: <100ms jika cache hit
 
 ---
@@ -193,7 +255,10 @@ Jika ada error atau pertanyaan:
 ## 📝 Notes
 
 - **Primary QR delivery**: Instant di browser (100% reliable, no limit)
-- **Backup QR delivery**: Email (delay hingga 5 hari karena limit 100/hari)
-- **Limit MailApp**: 100 email/hari (free Gmail)
-- **Estimasi user**: 500 supplier → email butuh ~5 hari, tapi semua langsung dapat QR di browser ✅
-- **Upgrade option**: Google Workspace ($6/bulan) → 1500 email/hari (opsional, tidak urgent)
+- **Backup QR delivery**: Email via Resend API (delay ~1 menit)
+- **Resend Free Tier**: 100 email/hari, 3000 email/bulan
+- **Testing mode** (`onboarding@resend.dev`): Hanya bisa kirim ke email akun Resend Anda
+- **Production mode**: WAJIB verifikasi domain sendiri untuk kirim ke semua recipient
+- **Estimasi user**: 500 supplier → email butuh ~10 menit (jika trigger 1 menit), tapi semua langsung dapat QR di browser ✅
+- **Production ready**: Resend API lebih reliable daripada MailApp
+- **Upgrade option**: Resend paid plans untuk kapasitas lebih besar (opsional)
