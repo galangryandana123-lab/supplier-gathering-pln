@@ -1378,21 +1378,25 @@ function saveAttendanceRecord(qrData) {
 
 /**
  * Cek apakah supplier sudah melakukan absensi sebelumnya
+ * ALWAYS check sheet first to ensure data consistency (cache bisa outdated jika data dihapus manual)
  */
 function checkDuplicateAttendance(sheet, email) {
   try {
     const normalizedEmail = (email || "").toLowerCase().trim();
     const cache = CacheService.getScriptCache();
     const key = "attendance_" + normalizedEmail;
-    if (key && cache.get(key)) {
-      return true; // duplicate via cache
-    }
 
+    // Check sheet kosong
     if (sheet.getLastRow() <= 1) {
+      // Sheet kosong, remove cache jika ada
+      try {
+        cache.remove(key);
+      } catch (e) {}
       return false; // Belum ada data
     }
 
-    // Cari cepat menggunakan TextFinder (lebih efisien daripada load seluruh kolom)
+    // ALWAYS check sheet first (source of truth) - jangan percaya cache
+    // Karena data bisa dihapus manual dari sheet tapi cache masih ada
     const found = sheet
       .createTextFinder(normalizedEmail)
       .matchCase(false)
@@ -1400,10 +1404,18 @@ function checkDuplicateAttendance(sheet, email) {
       .findNext();
 
     if (found) {
-      cache.put(key, "1", 3600); // 1 jam
+      // Data ada di sheet, update cache
+      try {
+        cache.put(key, "1", 3600); // 1 jam
+      } catch (e) {}
       return true;
+    } else {
+      // Data tidak ada di sheet, remove cache jika ada (mungkin data dihapus)
+      try {
+        cache.remove(key);
+      } catch (e) {}
+      return false;
     }
-    return false;
   } catch (error) {
     Logger.log("Error checkDuplicateAttendance: " + error.toString());
     return false;
