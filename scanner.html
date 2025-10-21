@@ -542,6 +542,12 @@
         html += `<div class="data-item"><div class="data-label">Email:</div><div class="data-value">${
           data.email || "-"
         }</div></div>`;
+        
+        // Display Unit Pembangkit (units)
+        const unitsDisplay = Array.isArray(data.units) && data.units.length > 0 
+          ? data.units.join(", ") 
+          : "-";
+        html += `<div class="data-item"><div class="data-label">Unit Pembangkit:</div><div class="data-value">${unitsDisplay}</div></div>`;
 
         resultData.innerHTML = html;
         resultContainer.classList.add("show");

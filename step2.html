@@ -704,7 +704,8 @@
                 d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"
               />
             </svg>
-            <strong>Silakan cek email Anda</strong> untuk mendapatkan QR Code kehadiran
+            <strong>Silakan cek email Anda</strong> untuk mendapatkan QR Code
+            kehadiran
           </p>
           <p style="margin: 0; color: #2d3748; font-size: 15px">
             <svg
@@ -729,7 +730,8 @@
                 d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zM10 7a1 1 0 011 1v1h2a1 1 0 110 2h-3a1 1 0 01-1-1V8a1 1 0 011-1zM16 9a1 1 0 100 2 1 1 0 000-2zM9 13a1 1 0 011-1h1a1 1 0 110 2v2a1 1 0 11-2 0v-3zM7 11a1 1 0 100-2H4a1 1 0 100 2h3zM17 13a1 1 0 01-1 1h-2a1 1 0 110-2h2a1 1 0 011 1zM16 17a1 1 0 100-2h-3a1 1 0 100 2h3z"
               />
             </svg>
-            QR Code tersebut digunakan untuk <strong>absensi kehadiran</strong> saat acara berlangsung
+            QR Code tersebut digunakan untuk
+            <strong>absensi kehadiran</strong> saat acara berlangsung
           </p>
         </div>
 
@@ -1833,7 +1835,8 @@
         const step1Json = localStorage.getItem("step1Data");
         if (!step1Json) {
           alert("Data step 1 tidak ditemukan. Silakan mulai dari awal.");
-          window.location.href = 'https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec';
+          window.location.href =
+            "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec";
           return;
         }
 
@@ -1842,7 +1845,8 @@
 
         if (selectedUnits.length === 0) {
           alert("Tidak ada unit yang dipilih. Silakan mulai dari awal.");
-          window.location.href = 'https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec';
+          window.location.href =
+            "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec";
           return;
         }
 
@@ -2031,7 +2035,7 @@
 
         // Navigate back to step 1 (use dynamic URL for iframe proxy support)
         const currentUrl = window.location.href;
-        const baseUrl = currentUrl.split('?')[0];
+        const baseUrl = currentUrl.split("?")[0];
         const step1Url = baseUrl; // No query params = step1 (default)
         window.location.replace(step1Url);
       }
@@ -2129,7 +2133,7 @@
 
         // Navigate back to step 1 (use dynamic URL for iframe proxy support)
         const currentUrl = window.location.href;
-        const baseUrl = currentUrl.split('?')[0];
+        const baseUrl = currentUrl.split("?")[0];
         const step1Url = baseUrl; // No query params = step1 (default)
         window.location.replace(step1Url);
       }
@@ -2186,10 +2190,10 @@
                 .getElementById("loadingOverlay")
                 .classList.remove("show");
               document.getElementById("thankYouOverlay").style.display = "flex";
-              
+
               // Generate & display QR code
               generateAndDisplayQR(step1Data);
-              
+
               console.log("Success! Showing thank you message with QR");
             })
             .withFailureHandler(function (error) {
@@ -2204,11 +2208,13 @@
                 .getElementById("loadingOverlay")
                 .classList.remove("show");
               document.getElementById("thankYouOverlay").style.display = "flex";
-              
+
               // Generate & display QR code even on error (data likely saved)
               generateAndDisplayQR(step1Data);
-              
-              console.log("Error occurred, but showing thank you message with QR");
+
+              console.log(
+                "Error occurred, but showing thank you message with QR"
+              );
             })
             .saveFormData(finalData);
         } else {
@@ -2248,9 +2254,9 @@
       // ============================================================
       // QR CODE GENERATION & DISPLAY
       // ============================================================
-      
+
       let currentQRDataUrl = null;
-      
+
       /**
        * Generate dan tampilkan QR code di browser
        */
@@ -2263,10 +2269,12 @@
             email: supplierData.email,
             timestamp: Date.now(),
           });
-          
+
           // Generate QR Code menggunakan qrserver.com API
-          const qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=280x280&format=png&data=" + encodeURIComponent(qrData);
-          
+          const qrCodeUrl =
+            "https://api.qrserver.com/v1/create-qr-code/?size=280x280&format=png&data=" +
+            encodeURIComponent(qrData);
+
           // Display QR code
           const container = document.getElementById("qrCodeContainer");
           container.innerHTML = `
@@ -2279,17 +2287,17 @@
               onerror="handleQRError()"
             />
           `;
-          
+
           // Store for download
           currentQRDataUrl = qrCodeUrl;
-          
+
           console.log("QR Code generated and displayed");
         } catch (error) {
           console.error("Error generating QR:", error);
           handleQRError();
         }
       }
-      
+
       /**
        * Handle QR loaded successfully
        */
@@ -2298,7 +2306,7 @@
         document.getElementById("downloadQRBtn").style.display = "inline-block";
         console.log("QR Code loaded successfully");
       }
-      
+
       /**
        * Handle QR load error
        */
@@ -2312,7 +2320,7 @@
         `;
         console.error("Failed to load QR Code");
       }
-      
+
       /**
        * Download QR Code sebagai PNG
        */
@@ -2321,7 +2329,7 @@
           alert("QR Code belum tersedia untuk didownload");
           return;
         }
-        
+
         try {
           // Create temporary link untuk download
           const link = document.createElement("a");
@@ -2330,7 +2338,7 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          
+
           console.log("QR Code downloaded");
         } catch (error) {
           console.error("Error downloading QR:", error);

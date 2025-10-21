@@ -4,18 +4,19 @@
  */
 
 // KONFIGURASI - Ganti dengan Spreadsheet ID Anda
-const SPREADSHEET_ID = "175u9HZZOxpGCHS8GwurWbivY2i6gZn-DRgroehkx9MY";
+const SPREADSHEET_ID = "id_kamu";
 
 // ============================================================
 // KONFIGURASI RESEND API - UBAH HANYA API KEY DI BAWAH INI!
 // ============================================================
 // Dapatkan API key dari: https://resend.com/api-keys
-const RESEND_API_KEY = "re_xxxxxxxxxxxxxxxxxxxxxxxxxx"; // ⬅️ GANTI DENGAN API KEY ANDA
+const RESEND_API_KEY = "re_xxxxxxxxxxxxxx"; // ⬅️ GANTI DENGAN API KEY ANDA
 
 // ============================================================
 // KONFIGURASI LAINNYA (JANGAN DIUBAH KECUALI PERLU)
 // ============================================================
-const RESEND_FROM_EMAIL = "PLN Supplier Gathering <noreply@galangproject.my.id>";
+const RESEND_FROM_EMAIL =
+  "PLN Supplier Gathering <noreply@galangproject.my.id>";
 // Domain galangproject.my.id sudah verified di Resend
 
 // Nama-nama sheet
@@ -583,7 +584,7 @@ function saveKehadiranData(ss, step1Data) {
     headerRange.setFontWeight("bold");
     headerRange.setBackground("#667eea");
     headerRange.setFontColor("#ffffff");
-    
+
     // Set timestamp column format to show date and time
     sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
     sheet.setColumnWidth(1, 160); // Timestamp
@@ -695,7 +696,7 @@ function saveKuesionerData(ss, sheetName, step1Data, kuesionerData) {
     sheet.setColumnWidth(35, 350); // Penerapan PLN NP BERSIH
     sheet.setColumnWidth(36, 350); // Kritik
     sheet.setColumnWidth(37, 350); // Saran
-    
+
     // Set timestamp column format to show date and time
     sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
   }
@@ -914,11 +915,11 @@ function addEmailToQueue(supplierData) {
       headerRange.setFontWeight("bold");
       headerRange.setBackground("#1e3c72");
       headerRange.setFontColor("#ffffff");
-      
+
       // Set timestamp column format to show date and time
       queueSheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
       queueSheet.getRange("H:H").setNumberFormat("dd/mm/yyyy hh:mm:ss"); // Last Attempt
-      
+
       // Set column widths
       queueSheet.setColumnWidth(1, 160); // Timestamp
       queueSheet.setColumnWidth(2, 220); // Email
@@ -1311,13 +1312,13 @@ function setupSheets() {
  * 5. Rekap Kehadiran
  * 6. Email Queue
  * 7. Buku Tamu
- * 
+ *
  * JALANKAN MANUAL 1 KALI untuk mengatur ulang urutan sheet
  */
 function reorderSheets() {
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    
+
     // Get all sheets
     const kehadiranSheet = ss.getSheetByName(SHEET_NAMES.KEHADIRAN);
     const paitonSheet = ss.getSheetByName(SHEET_NAMES.PAITON);
@@ -1326,56 +1327,60 @@ function reorderSheets() {
     const rekapSheet = ss.getSheetByName(SHEET_NAMES.REKAP);
     const emailQueueSheet = ss.getSheetByName(SHEET_NAMES.EMAIL_QUEUE);
     const bukuTamuSheet = ss.getSheetByName(SHEET_NAMES.BUKU_TAMU);
-    
+
     if (!emailQueueSheet || !bukuTamuSheet) {
       Logger.log("⚠️ Sheet Email Queue atau Buku Tamu tidak ditemukan");
       return;
     }
-    
+
     // Set desired order (1-based index)
     let position = 1;
-    
+
     if (kehadiranSheet) {
       ss.setActiveSheet(kehadiranSheet);
       ss.moveActiveSheet(position++);
       Logger.log("✅ Moved: Data Kehadiran to position " + (position - 1));
     }
-    
+
     if (paitonSheet) {
       ss.setActiveSheet(paitonSheet);
       ss.moveActiveSheet(position++);
       Logger.log("✅ Moved: Kuesioner UP Paiton to position " + (position - 1));
     }
-    
+
     if (brantasSheet) {
       ss.setActiveSheet(brantasSheet);
       ss.moveActiveSheet(position++);
-      Logger.log("✅ Moved: Kuesioner UP Brantas to position " + (position - 1));
+      Logger.log(
+        "✅ Moved: Kuesioner UP Brantas to position " + (position - 1)
+      );
     }
-    
+
     if (pacitanSheet) {
       ss.setActiveSheet(pacitanSheet);
       ss.moveActiveSheet(position++);
-      Logger.log("✅ Moved: Kuesioner UP Pacitan to position " + (position - 1));
+      Logger.log(
+        "✅ Moved: Kuesioner UP Pacitan to position " + (position - 1)
+      );
     }
-    
+
     if (rekapSheet) {
       ss.setActiveSheet(rekapSheet);
       ss.moveActiveSheet(position++);
       Logger.log("✅ Moved: Rekap Kehadiran to position " + (position - 1));
     }
-    
+
     // Move Email Queue before Buku Tamu
     ss.setActiveSheet(emailQueueSheet);
     ss.moveActiveSheet(position++);
     Logger.log("✅ Moved: Email Queue to position " + (position - 1));
-    
+
     if (bukuTamuSheet) {
       ss.setActiveSheet(bukuTamuSheet);
       ss.moveActiveSheet(position++);
       Logger.log("✅ Moved: Buku Tamu to position " + (position - 1));
     }
-    
+
     Logger.log("\n🎉 Sheet reordering complete!");
     Logger.log("Final order:");
     Logger.log("1. Data Kehadiran");
@@ -1385,7 +1390,6 @@ function reorderSheets() {
     Logger.log("5. Rekap Kehadiran");
     Logger.log("6. Email Queue");
     Logger.log("7. Buku Tamu");
-    
   } catch (error) {
     Logger.log("❌ Error reorderSheets: " + error.toString());
     throw error;
@@ -1442,7 +1446,7 @@ function generateQRCodeBase64(supplierData) {
     // Download QR code as blob
     const response = UrlFetchApp.fetch(qrCodeUrl);
     const qrBlob = response.getBlob();
-    
+
     // Convert blob to base64 string untuk Resend API
     const qrBase64 = Utilities.base64Encode(qrBlob.getBytes());
 
@@ -1460,7 +1464,9 @@ function sendQRCodeEmail(supplierData) {
   try {
     // Validasi Resend API Key
     if (!RESEND_API_KEY || RESEND_API_KEY === "re_xxxxxxxxxxxxxxxxxxxxxxxxxx") {
-      throw new Error("RESEND_API_KEY belum dikonfigurasi. Set di baris 9-10 Code.gs");
+      throw new Error(
+        "RESEND_API_KEY belum dikonfigurasi. Set di baris 9-10 Code.gs"
+      );
     }
 
     // Generate QR Code sebagai base64
@@ -1760,7 +1766,7 @@ function saveAttendanceRecord(qrData) {
       sheet.setColumnWidth(4, 220); // Email
       sheet.setColumnWidth(5, 200); // Unit Pembangkit
       sheet.setColumnWidth(6, 110); // Status
-      
+
       // Set timestamp column format to show date and time
       sheet.getRange("A:A").setNumberFormat("dd/mm/yyyy hh:mm:ss");
     }
