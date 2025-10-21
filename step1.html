@@ -788,7 +788,7 @@
 
       <!-- Navigation Buttons -->
       <div class="button-group">
-        <button type="button" class="btn btn-primary" onclick="handleNext()">
+        <button type="button" class="btn btn-primary" id="nextButton" onclick="handleNext()">
           Selanjutnya
         </button>
       </div>
@@ -829,6 +829,13 @@
           '<div class="company-dropdown-loading">Memuat daftar perusahaan...</div>';
         dropdown.style.display = "block";
 
+        // Disable submit button while loading
+        const nextButton = document.getElementById('nextButton');
+        if (nextButton) {
+          nextButton.disabled = true;
+          nextButton.textContent = 'Memuat data...';
+        }
+
         // Call Google Apps Script function
         google.script.run
           .withSuccessHandler(function (companies) {
@@ -850,6 +857,12 @@
             // Hide loading
             dropdown.style.display = "none";
 
+            // Enable submit button
+            if (nextButton) {
+              nextButton.disabled = false;
+              nextButton.textContent = 'Selanjutnya';
+            }
+
             // Setup search functionality
             setupCompanySearch();
 
@@ -860,6 +873,12 @@
             console.error("Error loading companies:", error);
             dropdown.innerHTML =
               '<div class="company-dropdown-empty">Error loading companies. Please refresh page.</div>';
+            
+            // Re-enable button with error state
+            if (nextButton) {
+              nextButton.disabled = false;
+              nextButton.textContent = 'Selanjutnya';
+            }
           })
           .getAvailableCompanies();
       })();
@@ -1181,6 +1200,12 @@
 
       // Handle next button
       function handleNext() {
+        // Check if companies data is still loading
+        if (availableCompanies.length === 0) {
+          alert('Data perusahaan sedang dimuat. Mohon tunggu sebentar dan coba lagi.');
+          return;
+        }
+
         if (validateForm()) {
           // Get selected units (multiple selection)
           const selectedUnits = Array.from(
@@ -1208,12 +1233,10 @@
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Navigate to step 2 using absolute Apps Script URL
+          // Navigate to step 2 using absolute Apps Script URL (hardcoded for reliability)
           setTimeout(() => {
-            window.location.replace(
-              "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec?page=step2"
-            );
-          }, 500);
+            window.location.href = "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec?page=step2";
+          }, 300);
         } else {
           const firstError = document.querySelector(
             ".error, .error-message.show"
