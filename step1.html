@@ -794,6 +794,11 @@
       </div>
     </div>
 
+    <!-- Hidden form for fallback navigation -->
+    <form id="hiddenNavigationForm" method="GET" action="https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec" style="display:none;">
+      <input type="hidden" name="page" value="step2">
+    </form>
+
     <script>
       // Store available companies globally for validation
       let availableCompanies = [];
@@ -1233,10 +1238,24 @@
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Navigate to step 2 using absolute Apps Script URL (hardcoded for reliability)
-          setTimeout(() => {
-            window.location.href = "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec?page=step2";
-          }, 300);
+          // Navigate to step 2 - multiple methods for reliability
+          const step2Url = "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec?page=step2";
+          
+          console.log("Navigating to step2:", step2Url);
+          console.log("Current URL:", window.location.href);
+          
+          // Method 1: Try form submission (most reliable for cross-origin)
+          const hiddenForm = document.getElementById('hiddenNavigationForm');
+          if (hiddenForm) {
+            console.log("Using form submission method");
+            hiddenForm.submit();
+          } else {
+            // Method 2: Fallback to direct navigation
+            console.log("Using direct navigation method");
+            setTimeout(() => {
+              window.location.replace(step2Url);
+            }, 100);
+          }
         } else {
           const firstError = document.querySelector(
             ".error, .error-message.show"
