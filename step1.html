@@ -794,11 +794,6 @@
       </div>
     </div>
 
-    <!-- Hidden form for fallback navigation -->
-    <form id="hiddenNavigationForm" method="GET" action="https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec" style="display:none;">
-      <input type="hidden" name="page" value="step2">
-    </form>
-
     <script>
       // Store available companies globally for validation
       let availableCompanies = [];
@@ -1231,54 +1226,16 @@
 
           // Save to local storage (persistent)
           localStorage.setItem("step1Data", JSON.stringify(formData));
-          
-          // Debug: log to console
-          console.log("Step1 data saved to localStorage:", formData);
 
           // Show loading overlay for user feedback
           document.getElementById("loadingOverlay").classList.add("show");
 
-          // Debug navigation attempt
-          console.log("=== NAVIGATION DEBUG ===");
-          console.log("Current URL:", window.location.href);
-          console.log("Target: step2");
-          
-          // Check if we're in iframe
-          const inIframe = window !== window.parent;
-          console.log("In iframe?", inIframe);
-          
-          // Navigate to step 2 - try parent window if in iframe
-          const step2Url = "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec?page=step2";
-          
-          console.log("Step2 URL:", step2Url);
-          
-          // Method 1: Try navigating parent window if in iframe
-          if (inIframe) {
-            console.log("Attempting parent window navigation...");
-            try {
-              window.parent.location.href = step2Url;
-            } catch (e) {
-              console.log("Parent navigation failed:", e.message);
-              // Fall through to other methods
-            }
-          }
-          
-          // Method 2: Try form submission (reliable for cross-origin)
-          const hiddenForm = document.getElementById('hiddenNavigationForm');
-          if (hiddenForm) {
-            console.log("Using form submission method...");
-            // Add delay to see console logs
-            setTimeout(() => {
-              hiddenForm.submit();
-            }, 500);
-          } else {
-            // Method 3: Fallback to direct navigation
-            console.log("Form not found! Using direct navigation...");
-            setTimeout(() => {
-              console.log("Executing navigation now...");
-              window.location.href = step2Url;
-            }, 500);
-          }
+          // Navigate to step 2 after short delay (user sees loading feedback)
+          setTimeout(() => {
+            window.location.replace(
+              "https://script.google.com/macros/s/AKfycbw5aGCoUctv_h5X-7V5QlJ4VeUoYs4U2Pw2vwYpUi2AG-7yAgwiJ_tXyKKX55LUltYa/exec?page=step2"
+            );
+          }, 500);
         } else {
           const firstError = document.querySelector(
             ".error, .error-message.show"
