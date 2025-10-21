@@ -2032,6 +2032,7 @@
         // Clear all saved data from localStorage
         localStorage.removeItem("step1Data");
         localStorage.removeItem("kuesionerProgress");
+        localStorage.removeItem("available_companies_cache"); // Clear company list cache
 
         // Navigate back to step 1 (use dynamic URL for iframe proxy support)
         const currentUrl = window.location.href;
@@ -2162,6 +2163,7 @@
             console.log("Auto-redirect after 3 seconds");
             localStorage.removeItem("step1Data");
             localStorage.removeItem("kuesionerProgress");
+            localStorage.removeItem("available_companies_cache"); // Clear company list cache
 
             // Hide loading, show thank you message directly (more reliable than redirect)
             document.getElementById("loadingOverlay").classList.remove("show");
@@ -2184,6 +2186,7 @@
 
               localStorage.removeItem("step1Data");
               localStorage.removeItem("kuesionerProgress");
+              localStorage.removeItem("available_companies_cache"); // Clear company list cache
 
               // Show thank you message directly (more reliable)
               document

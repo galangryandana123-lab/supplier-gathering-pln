@@ -805,7 +805,7 @@
 
         const dropdown = document.getElementById("companyDropdown");
         const CACHE_KEY = "available_companies_cache";
-        const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+        const CACHE_TTL = 2 * 60 * 1000; // 2 minutes (reduced for faster updates)
 
         // Try to load from localStorage first
         try {
